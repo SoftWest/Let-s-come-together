@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--app name  -->
+    <string name="app_name">Let is come together</string>
+    
+    <string name="action_settings">Settings</string>
+    
+    <!--buttons names  -->
+    <string name="login_facebook">Login with Facebook</string>
+    <string name="login_friend_together">Login with Friends Together</string>
+    
+</resources>

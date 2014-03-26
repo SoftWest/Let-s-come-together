@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_login_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_blue_light"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/login_program"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/edge_normal"
+        android:background="@drawable/roundedbutton"
+        android:text="@string/login_friend_together"
+        android:textColor="@color/color_white" />
+
+    <Button
+        android:id="@+id/login_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_program"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/roundedbutton"
+        android:text="@string/login_facebook"
+        android:textColor="@color/color_white" />
+
+</RelativeLayout>
