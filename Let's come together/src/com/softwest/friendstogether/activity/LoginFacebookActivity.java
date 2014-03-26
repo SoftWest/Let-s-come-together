@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -32,7 +33,7 @@ import com.softwest.friendstogether.web.responces.CurrentUser;
 public class LoginFacebookActivity
   extends Activity
 {
-  private String APP_ID  = "1419097081679140";
+  private String APP_ID = "1419097081679140";
   // Instance of Facebook Class
   private Facebook facebook;
   
@@ -40,15 +41,21 @@ public class LoginFacebookActivity
   private AsyncFacebookRunner mAsyncRunner;
   String FILENAME = "AndroidSSO_data";
   private SharedPreferences mPrefs;
+  private CurrentUser mUser;
   
+  @SuppressWarnings( "deprecation" )
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-  
+    
     getNewFacebookKeyHash();
-   
+    
+    facebook = new Facebook( APP_ID );
+    mAsyncRunner = new AsyncFacebookRunner( facebook );
+    
     loginFacebook();
+    
     CurrentUser user = new CurrentUser();
     
     getProfileInformation();
@@ -59,7 +66,7 @@ public class LoginFacebookActivity
     try
     {
       PackageInfo info = getPackageManager().getPackageInfo( this.getPackageName(), PackageManager.GET_SIGNATURES );
-   
+      
       for( Signature signature : info.signatures )
       {
         MessageDigest md = MessageDigest.getInstance( "SHA" );
@@ -77,32 +84,23 @@ public class LoginFacebookActivity
     }
     
   }
-
+  
   @SuppressWarnings( "deprecation" )
   private void loginFacebook()
   {
-    facebook = new Facebook( APP_ID );
-    mAsyncRunner = new AsyncFacebookRunner( facebook );
-    
     mPrefs = getPreferences( MODE_PRIVATE );
     String access_token = mPrefs.getString( "access_token", null );
     long expires = mPrefs.getLong( "access_expires", 0 );
     
     if( access_token != null )
-    {
       facebook.setAccessToken( access_token );
-    }
     
     if( expires != 0 )
-    {
       facebook.setAccessExpires( expires );
-    }
     
     if( !facebook.isSessionValid() )
-    {
       facebook.authorize( this, new String[]{ "email", "publish_stream" }, new DialogListener()
       {
-        
         @Override
         public void onCancel()
         {
@@ -130,53 +128,69 @@ public class LoginFacebookActivity
         }
         
       } );
-    }
   }
+  
   @SuppressWarnings( "deprecation" )
-  public void getProfileInformation() {
-    mAsyncRunner.request("me", new RequestListener() {
-        @Override
-        public void onComplete(String response, Object state) {
-            Log.d("Profile", response);
-            String json = response;
-            try {
-                JSONObject profile = new JSONObject(json);
-                // getting name of the user
-                final String name = profile.getString("name");
-                // getting email of the user
-                final String email = profile.getString("email");
- 
-                runOnUiThread(new Runnable() {
- 
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Name: " + name + "\nEmail: " + email, Toast.LENGTH_LONG).show();
-                    }
- 
-                });
- 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+  @Override
+  public void onActivityResult( int requestCode, int resultCode, Intent data )
+  {
+    super.onActivityResult( requestCode, resultCode, data );
+    facebook.authorizeCallback( requestCode, resultCode, data );
+  }
+  
+  @SuppressWarnings( "deprecation" )
+  public void getProfileInformation()
+  {
+    mAsyncRunner.request( "me", new RequestListener()
+    {
+      @Override
+      public void onComplete( String response, Object state )
+      {
+        Log.d( "Profile", response );
+        String json = response;
+        try
+        {
+          JSONObject profile = new JSONObject( json );
+          // getting name of the user
+          mUser.name = profile.getString( "name" );
+          // getting email of the user
+       //   mUser. = profile.getString( "email" );
+          
+//          runOnUiThread( new Runnable()
+//          {
+//            @Override
+//            public void run()
+//            {
+//              Toast.makeText( getApplicationContext(), "Name: " + name + "\nEmail: " + email, Toast.LENGTH_LONG )
+//                  .show();
+//            }
+//          } );
         }
- 
-        @Override
-        public void onIOException(IOException e, Object state) {
+        catch( JSONException e )
+        {
+          e.printStackTrace();
         }
- 
-        @Override
-        public void onFileNotFoundException(FileNotFoundException e,
-                Object state) {
-        }
- 
-        @Override
-        public void onMalformedURLException(MalformedURLException e,
-                Object state) {
-        }
- 
-        @Override
-        public void onFacebookError(FacebookError e, Object state) {
-        }
-    });
-}
+      }
+      
+      @Override
+      public void onIOException( IOException e, Object state )
+      {
+      }
+      
+      @Override
+      public void onFileNotFoundException( FileNotFoundException e, Object state )
+      {
+      }
+      
+      @Override
+      public void onMalformedURLException( MalformedURLException e, Object state )
+      {
+      }
+      
+      @Override
+      public void onFacebookError( FacebookError e, Object state )
+      {
+      }
+    } );
+  }
 }

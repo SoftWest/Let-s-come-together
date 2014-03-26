@@ -17,4 +17,5 @@ public class CurrentUser
   public String[] location;
   
   
+  
 }
