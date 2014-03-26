@@ -152,7 +152,7 @@ public class LoginFacebookActivity
         {
           JSONObject profile = new JSONObject( json );
           // getting name of the user
-          mUser.name = profile.getString( "name" );
+         // mUser.name = profile.getString( "name" );
           // getting email of the user
        //   mUser. = profile.getString( "email" );
           
