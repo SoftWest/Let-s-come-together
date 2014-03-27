@@ -1,6 +1,7 @@
 package com.softwest.friendstogether.web.responces;
 
 public class CurrentUser
+  extends Primary
 {
   public int id;
   
@@ -15,7 +16,5 @@ public class CurrentUser
   
   public String[] hometown;
   public String[] location;
-  
-  
   
 }

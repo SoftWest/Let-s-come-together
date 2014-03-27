@@ -27,6 +27,9 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.friendstogether.activity.R;
 import com.softwest.friendstogether.web.responces.CurrentUser;
 
@@ -55,9 +58,7 @@ public class LoginFacebookActivity
     mAsyncRunner = new AsyncFacebookRunner( facebook );
     
     loginFacebook();
-    
-    CurrentUser user = new CurrentUser();
-    
+  
     getProfileInformation();
   }
   
@@ -128,6 +129,7 @@ public class LoginFacebookActivity
         }
         
       } );
+    
   }
   
   @SuppressWarnings( "deprecation" )
@@ -141,6 +143,7 @@ public class LoginFacebookActivity
   @SuppressWarnings( "deprecation" )
   public void getProfileInformation()
   {
+    final ObjectMapper mapper = new ObjectMapper();
     mAsyncRunner.request( "me", new RequestListener()
     {
       @Override
@@ -150,10 +153,14 @@ public class LoginFacebookActivity
         String json = response;
         try
         {
-          JSONObject profile = new JSONObject( json );
-          // getting name of the user
-         // mUser.name = profile.getString( "name" );
-          // getting email of the user
+        //  JSONObject profile = new JSONObject( json );
+          
+          CurrentUser user = mapper.readValue( json, CurrentUser.class );
+          
+         Log.d( "json", "json " + user);
+       
+          //   mUser.name = profile.getString( "name" );
+          
        //   mUser. = profile.getString( "email" );
           
 //          runOnUiThread( new Runnable()
@@ -166,8 +173,19 @@ public class LoginFacebookActivity
 //            }
 //          } );
         }
-        catch( JSONException e )
+        catch( JsonParseException e )
         {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        catch( JsonMappingException e )
+        {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        catch( IOException e )
+        {
+          // TODO Auto-generated catch block
           e.printStackTrace();
         }
       }
