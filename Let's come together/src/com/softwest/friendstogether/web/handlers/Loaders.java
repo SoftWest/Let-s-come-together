@@ -1,26 +1,29 @@
 package com.softwest.friendstogether.web.handlers;
 
-import com.softwest.friendstogether.web.WebApi;
-import com.softwest.friendstogether.web.WebApi.Methods;
-import com.softwest.friendstogether.web.responces.Primary;
-
 import android.content.Context;
-import android.content.Loader;
+import android.support.v4.content.Loader;
+
+import com.softwest.friendstogether.web.WebApi;
+import com.softwest.friendstogether.web.responses.Primary;
 
 public final class Loaders
 {
-  //Static member
- private static String mToken;
- 
- public static void signToken(String token)
- {
-   mToken = token;
- }
+  // #region Static members
+  private static String sToken;
   
- public static Loader<Primary> someExample(final Context context,int number)
- {
-   JsonLoader loader = new JsonLoader( context , WebApi.Methods.Example,ApiHandler.EXAMPLE);
+  // #region Common loader call member
+  public static void assignToken( String token )
+  {
+    sToken = token;
+  }
+  // #region Known loaders
+  
+  public static Loader<Primary> example( final Context context, int applicationName, int contactName,
+      int contactEmail, int secretKey )
+  {
+    JsonLoader loader = new JsonLoader( context, WebApi.Methods.Example, ApiHandlers.REGISTRATION_APP );
+    
    
-  return null;
- }
+    return loader;
+  }
 }

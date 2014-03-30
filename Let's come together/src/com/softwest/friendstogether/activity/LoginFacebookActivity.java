@@ -6,9 +6,6 @@ import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +16,6 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
@@ -30,8 +26,7 @@ import com.facebook.android.FacebookError;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.friendstogether.activity.R;
-import com.softwest.friendstogether.web.responces.CurrentUser;
+import com.softwest.friendstogether.LetIsGoTogetherAPP;
 
 public class LoginFacebookActivity
   extends Activity
@@ -44,7 +39,7 @@ public class LoginFacebookActivity
   private AsyncFacebookRunner mAsyncRunner;
   String FILENAME = "AndroidSSO_data";
   private SharedPreferences mPrefs;
-  private CurrentUser mUser;
+ // private CurrentUser mUser;
   
   @SuppressWarnings( "deprecation" )
   @Override
@@ -155,9 +150,9 @@ public class LoginFacebookActivity
         {
         //  JSONObject profile = new JSONObject( json );
           
-          CurrentUser user = mapper.readValue( json, CurrentUser.class );
+     //     CurrentUser user = mapper.readValue( json, CurrentUser.class );
           
-         Log.d( "json", "json " + user);
+  //       Log.d( "json", "json " + user);
        
           //   mUser.name = profile.getString( "name" );
           
@@ -173,20 +168,9 @@ public class LoginFacebookActivity
 //            }
 //          } );
         }
-        catch( JsonParseException e )
+        catch( Throwable ignore )
         {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        catch( JsonMappingException e )
-        {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        catch( IOException e )
-        {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+         Log.e( LetIsGoTogetherAPP.TAG, ignore.toString() );
         }
       }
       
