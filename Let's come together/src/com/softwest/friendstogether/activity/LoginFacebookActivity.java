@@ -23,25 +23,22 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softwest.friendstogether.LetIsGoTogetherAPP;
+import com.softwest.friendstogether.web.responses.CurrentUser;
+import com.softwest.friendstogether.web.responses.Primary;
 
+@SuppressWarnings( "deprecation" )
 public class LoginFacebookActivity
   extends Activity
 {
   private String APP_ID = "1419097081679140";
   // Instance of Facebook Class
   private Facebook facebook;
-  
-  @SuppressWarnings( "deprecation" )
+ 
   private AsyncFacebookRunner mAsyncRunner;
   String FILENAME = "AndroidSSO_data";
   private SharedPreferences mPrefs;
- // private CurrentUser mUser;
-  
-  @SuppressWarnings( "deprecation" )
+  //private CurrentUser mUser;
+ 
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
@@ -80,8 +77,7 @@ public class LoginFacebookActivity
     }
     
   }
-  
-  @SuppressWarnings( "deprecation" )
+
   private void loginFacebook()
   {
     mPrefs = getPreferences( MODE_PRIVATE );
@@ -126,54 +122,28 @@ public class LoginFacebookActivity
       } );
     
   }
-  
-  @SuppressWarnings( "deprecation" )
+
   @Override
   public void onActivityResult( int requestCode, int resultCode, Intent data )
   {
     super.onActivityResult( requestCode, resultCode, data );
     facebook.authorizeCallback( requestCode, resultCode, data );
   }
-  
-  @SuppressWarnings( "deprecation" )
+
   public void getProfileInformation()
   {
-    final ObjectMapper mapper = new ObjectMapper();
     mAsyncRunner.request( "me", new RequestListener()
     {
       @Override
       public void onComplete( String response, Object state )
       {
         Log.d( "Profile", response );
+ 
         String json = response;
-        try
-        {
-        //  JSONObject profile = new JSONObject( json );
-          
-     //     CurrentUser user = mapper.readValue( json, CurrentUser.class );
-          
-  //       Log.d( "json", "json " + user);
-       
-          //   mUser.name = profile.getString( "name" );
-          
-       //   mUser. = profile.getString( "email" );
-          
-//          runOnUiThread( new Runnable()
-//          {
-//            @Override
-//            public void run()
-//            {
-//              Toast.makeText( getApplicationContext(), "Name: " + name + "\nEmail: " + email, Toast.LENGTH_LONG )
-//                  .show();
-//            }
-//          } );
-        }
-        catch( Throwable ignore )
-        {
-         Log.e( LetIsGoTogetherAPP.TAG, ignore.toString() );
-        }
+   
+      CurrentUser  user = Primary.fromJson( json, CurrentUser.class );
+     
       }
-      
       @Override
       public void onIOException( IOException e, Object state )
       {

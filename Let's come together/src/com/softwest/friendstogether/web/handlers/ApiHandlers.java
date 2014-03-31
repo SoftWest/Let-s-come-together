@@ -1,7 +1,7 @@
 package com.softwest.friendstogether.web.handlers;
 
 
-import com.softwest.friendstogether.web.responses.wrappers.CurrentUser;
+import com.softwest.friendstogether.web.responses.CurrentUser;
 
 public final class ApiHandlers
 {

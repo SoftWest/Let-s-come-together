@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.softwest.friendstogether.web.responses.Primary;
 
+
 /** JSON response handler - converts JSON to business objects. */
 public interface JsonHandler
 {

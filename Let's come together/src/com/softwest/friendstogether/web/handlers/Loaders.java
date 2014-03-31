@@ -18,11 +18,10 @@ public final class Loaders
   }
   // #region Known loaders
   
-  public static Loader<Primary> example( final Context context, int applicationName, int contactName,
-      int contactEmail, int secretKey )
+  public static Loader<Primary> example( final Context context, String applicationName )
   {
     JsonLoader loader = new JsonLoader( context, WebApi.Methods.Example, ApiHandlers.REGISTRATION_APP );
-    
+    loader.addParameters( WebApi.Query.EXAMPLE, applicationName );
    
     return loader;
   }
