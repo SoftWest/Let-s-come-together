@@ -52,6 +52,9 @@ public class LoginFacebookActivity
     loginFacebook();
   
     getProfileInformation();
+
+   // logoutFromFacebook();
+   
   }
   
   private void getNewFacebookKeyHash()
@@ -122,6 +125,35 @@ public class LoginFacebookActivity
       } );
     
   }
+   public void logoutFromFacebook() {
+   mAsyncRunner.logout(this, new RequestListener() {
+        @Override
+        public void onComplete(String response, Object state) {
+            Log.d("Logout from Facebook", response);
+            if (Boolean.parseBoolean(response) == true) {
+                // User successfully Logged out
+            }
+        }
+ 
+        @Override
+        public void onIOException(IOException e, Object state) {
+        }
+ 
+        @Override
+        public void onFileNotFoundException(FileNotFoundException e,
+                Object state) {
+        }
+ 
+        @Override
+        public void onMalformedURLException(MalformedURLException e,
+                Object state) {
+        }
+ 
+        @Override
+        public void onFacebookError(FacebookError e, Object state) {
+        }
+    });
+}
 
   @Override
   public void onActivityResult( int requestCode, int resultCode, Intent data )

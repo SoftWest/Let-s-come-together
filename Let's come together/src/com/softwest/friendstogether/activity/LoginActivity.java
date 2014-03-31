@@ -23,7 +23,7 @@ public class LoginActivity
     setContentView( R.layout.login_activity );
     
     mLoginFacebook = ( Button )findViewById( R.id.login_facebook );
-    mLoginProgram = ( Button )findViewById( R.id.login_program );
+    mLoginProgram = ( Button )findViewById( R.id.login_twitter );
     
     mLoginFacebook.setOnClickListener( this );
     mLoginProgram.setOnClickListener( this );
@@ -41,7 +41,7 @@ public class LoginActivity
         startActivity( intent );
         break;
       
-      case R.id.login_program:
+      case R.id.login_twitter:
         
         break;
     
