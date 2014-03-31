@@ -21,7 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.softwest.friendstogether.activity.LoginActivity"></activity>
+        <activity android:name="com.softwest.friendstogether.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+            
+        </activity>
         <activity android:name="com.softwest.friendstogether.activity.LoginFacebookActivity"></activity>
     </application>
 
