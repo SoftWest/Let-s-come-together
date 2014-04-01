@@ -2,6 +2,7 @@
 <resources>
 
     <!-- app name -->
+
     <string name="app_name">Come Together</string>
     <string name="action_settings">Settings</string>
     
@@ -16,5 +17,20 @@
     <string name="login_program">Log in</string>
     <string name="login_facebook">Sig in with Facebook</string>
     <string name="login_twitter">Sig in with Twitter</string>
+
+    <string name="app_name">Come together</string>
+    <string name="action_settings">Settings</string>
+    
+    <!-- login fragment -->
+    <string name="forgot_password">Forgot password?</string>
+    <string name="email_adress">E-mail address</string>
+    <string name="sign_up">New here?Sign up</string>
+      
+      
+    <!-- buttons names -->
+    <string name="login_program">Login in</string>
+    <string name="login_facebook">Sing in with Facebook</string>
+    <string name="login_twitter">Sing in with Twitter</string>
+
 
 </resources>
