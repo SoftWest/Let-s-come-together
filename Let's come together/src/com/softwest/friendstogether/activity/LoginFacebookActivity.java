@@ -33,12 +33,13 @@ public class LoginFacebookActivity
   private String APP_ID = "1419097081679140";
   // Instance of Facebook Class
   private Facebook facebook;
- 
+  
   private AsyncFacebookRunner mAsyncRunner;
   String FILENAME = "AndroidSSO_data";
   private SharedPreferences mPrefs;
-  //private CurrentUser mUser;
- 
+  
+  // private CurrentUser mUser;
+  
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
@@ -50,11 +51,14 @@ public class LoginFacebookActivity
     mAsyncRunner = new AsyncFacebookRunner( facebook );
     
     loginFacebook();
-  
+    
     getProfileInformation();
-
-   // logoutFromFacebook();
-   
+    
+    Intent mapIntent = new Intent( this, MapActivity.class );
+    startActivity( mapIntent );
+    
+    // logoutFromFacebook();
+    
   }
   
   private void getNewFacebookKeyHash()
@@ -80,7 +84,7 @@ public class LoginFacebookActivity
     }
     
   }
-
+  
   private void loginFacebook()
   {
     mPrefs = getPreferences( MODE_PRIVATE );
@@ -125,43 +129,50 @@ public class LoginFacebookActivity
       } );
     
   }
-   public void logoutFromFacebook() {
-   mAsyncRunner.logout(this, new RequestListener() {
-        @Override
-        public void onComplete(String response, Object state) {
-            Log.d("Logout from Facebook", response);
-            if (Boolean.parseBoolean(response) == true) {
-                // User successfully Logged out
-            }
+  
+  public void logoutFromFacebook()
+  {
+    mAsyncRunner.logout( this, new RequestListener()
+    {
+      @Override
+      public void onComplete( String response, Object state )
+      {
+        Log.d( "Logout from Facebook", response );
+        if( Boolean.parseBoolean( response ) == true )
+        {
+          // User successfully Logged out
         }
- 
-        @Override
-        public void onIOException(IOException e, Object state) {
-        }
- 
-        @Override
-        public void onFileNotFoundException(FileNotFoundException e,
-                Object state) {
-        }
- 
-        @Override
-        public void onMalformedURLException(MalformedURLException e,
-                Object state) {
-        }
- 
-        @Override
-        public void onFacebookError(FacebookError e, Object state) {
-        }
-    });
-}
-
+      }
+      
+      @Override
+      public void onIOException( IOException e, Object state )
+      {
+      }
+      
+      @Override
+      public void onFileNotFoundException( FileNotFoundException e, Object state )
+      {
+      }
+      
+      @Override
+      public void onMalformedURLException( MalformedURLException e, Object state )
+      {
+      }
+      
+      @Override
+      public void onFacebookError( FacebookError e, Object state )
+      {
+      }
+    } );
+  }
+  
   @Override
   public void onActivityResult( int requestCode, int resultCode, Intent data )
   {
     super.onActivityResult( requestCode, resultCode, data );
     facebook.authorizeCallback( requestCode, resultCode, data );
   }
-
+  
   public void getProfileInformation()
   {
     mAsyncRunner.request( "me", new RequestListener()
@@ -170,12 +181,13 @@ public class LoginFacebookActivity
       public void onComplete( String response, Object state )
       {
         Log.d( "Profile", response );
- 
+        
         String json = response;
-   
-      CurrentUser  user = Primary.fromJson( json, CurrentUser.class );
-     
+        
+        CurrentUser user = Primary.fromJson( json, CurrentUser.class );
+        
       }
+      
       @Override
       public void onIOException( IOException e, Object state )
       {

@@ -2,23 +2,18 @@
 <resources>
     
     <!--colors background  -->
-    <color name="color_background">#c3dfea</color>
+    
+     
+<color name="color_background">#c3dfea</color>
     <color name="color_black">#000000</color>
     <color name="color_white">#ffffff</color>
     <color name="color_blue">#1ec0f6</color>
-  <color name="color_orange">#FF9C24</color>
-    <color name="color_blue_dark">#0584ae</color>
+    <color name="color_orange">#FF9C24</color>
+      <color name="color_blue_dark">#0584ae</color>
     <color name="color_blue_light">#30a9d2</color>
     <color name="color_gray">#808080</color>
     <color name="color_bt_facebook">#3B5999</color>
      <color name="color_bt_twitter">#1BB2E9</color>
      <color name="color_et_background">#000</color>
       <color name="color_text">#C9B7B3</color>
-     
-
-    <color name="color_orange">#f80</color>
-    <color name="color_blue_dark">#0584ae</color>
-    <color name="color_blue_light">#30a9d2</color>
-    <color name="color_gray">#808080</color>
- 
 </resources>

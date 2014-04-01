@@ -20,10 +20,10 @@ public class LoginActivity
   {
     super.onCreate( savedInstanceState );
     
-    setContentView( R.layout.login_activity );
+    setContentView( R.layout.login );
     
-    mLoginFacebook = ( Button )findViewById( R.id.login_facebook );
-    mLoginProgram = ( Button )findViewById( R.id.login_twitter );
+    mLoginFacebook = ( Button )findViewById( R.id.btn_facebook );
+    mLoginProgram = ( Button )findViewById( R.id.btn_twitter );
     
     mLoginFacebook.setOnClickListener( this );
     mLoginProgram.setOnClickListener( this );
@@ -36,12 +36,12 @@ public class LoginActivity
   {
     switch( v.getId() )
     {
-      case R.id.login_facebook:
+      case R.id.btn_facebook:
         Intent intent = new Intent( this, LoginFacebookActivity.class );
         startActivity( intent );
         break;
       
-      case R.id.login_twitter:
+      case R.id.btn_twitter:
         
         break;
     
