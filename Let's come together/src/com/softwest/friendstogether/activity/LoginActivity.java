@@ -2,11 +2,15 @@ package com.softwest.friendstogether.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.friendstogether.activity.R;
+import com.softwest.friendstogether.fragment.RegistrationFragment;
 
 public class LoginActivity
   extends BaseActivity
@@ -14,21 +18,23 @@ public class LoginActivity
 {
   private Button mLoginFacebook;
   private Button mLoginProgram;
+  private TextView mSigIn;
   
   @Override
   public void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
     
-    setContentView( R.layout.login );
+    setContentView( R.layout.fg_login );
     
     mLoginFacebook = ( Button )findViewById( R.id.btn_facebook );
     mLoginProgram = ( Button )findViewById( R.id.btn_twitter );
+    mSigIn = ( TextView )findViewById( R.id.tv_sign_in );
     
     mLoginFacebook.setOnClickListener( this );
     mLoginProgram.setOnClickListener( this );
+    mSigIn.setOnClickListener( this );
     
-   
   }
   
   @Override
@@ -42,6 +48,14 @@ public class LoginActivity
         break;
       
       case R.id.btn_twitter:
+        
+        break;
+      case R.id.tv_sign_in:
+        
+        Fragment f = new RegistrationFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace( R.id.fl_main, f );
+        ft.commit();
         
         break;
     

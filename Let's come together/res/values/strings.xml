@@ -5,17 +5,36 @@
 
     <string name="app_name">Come Together</string>
     <string name="action_settings">Settings</string>
-    
+
     <!-- login fragment -->
     <string name="forgot_password">Forgot password?</string>
     <string name="email_adress">E-mail address</string>
     <string name="sign_up">New here? Sign up</string>
     <string name="point">••••••</string>
-      
-      
+
+    <!-- regstration fragment -->
+    <string name="register_sub_tittle">Be Always With Friends</string>
+    <string name="email_adress_input">your E-mail address</string>
+    
+    <string name="choose_password">choose password</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="account_type">Account type</string>
+    
+    <string name="nick_name">Nick Name</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    
+    <string name="bithhday_date">Birthday date</string>
+    
+    <string name="day_num">1</string>
+    <string name="mounth_num">Jan</string>
+    <string name="year_num">2014</string>
+
+    <string name="sign_up_reg">Sign up</string>
+    
     <!-- buttons names -->
     <string name="login_program">Log in</string>
     <string name="login_facebook">Sig in with Facebook</string>
     <string name="login_twitter">Sig in with Twitter</string>
-  
+
 </resources>

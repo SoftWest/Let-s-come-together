@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -28,7 +27,7 @@ import com.softwest.friendstogether.web.responses.Primary;
 
 @SuppressWarnings( "deprecation" )
 public class LoginFacebookActivity
-  extends Activity
+  extends BaseActivity
 {
   private String APP_ID = "1419097081679140";
   // Instance of Facebook Class
@@ -41,7 +40,7 @@ public class LoginFacebookActivity
   // private CurrentUser mUser;
   
   @Override
-  protected void onCreate( Bundle savedInstanceState )
+  public void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
     
@@ -65,7 +64,7 @@ public class LoginFacebookActivity
   {
     try
     {
-      PackageInfo info = getPackageManager().getPackageInfo( this.getPackageName(), PackageManager.GET_SIGNATURES );
+      PackageInfo info = getPackageManager().getPackageInfo( getPackageName(), PackageManager.GET_SIGNATURES );
       
       for( Signature signature : info.signatures )
       {
@@ -85,6 +84,7 @@ public class LoginFacebookActivity
     
   }
   
+  @SuppressWarnings( "static-access" )
   private void loginFacebook()
   {
     mPrefs = getPreferences( MODE_PRIVATE );

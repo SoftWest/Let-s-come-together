@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top"
+    android:background="@drawable/background_login" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginBottom="@dimen/edge_medium"
+        android:layout_marginTop="@dimen/edge_normal"
+        tools:ignore="UselessParent" >
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_name"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_huge" />
+
+        <TextView
+            android:id="@+id/tv_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/edge_normal"
+            android:text="@string/register_sub_tittle"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_normal" />
+
+        <LinearLayout
+            android:id="@+id/ll_include"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_name"
+            android:layout_alignRight="@+id/tv_name"
+            android:layout_below="@+id/tv_sub_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/edge_normal"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:drawableLeft="@drawable/ic_email_icon"
+                android:drawablePadding="@dimen/edge_above"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/edge_normal"
+                android:text="@string/email_adress_input"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_grey_smooth"
+                android:textSize="@dimen/text_mini" />
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edge_normal"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:drawableLeft="@drawable/ic_lock_icon"
+                android:drawablePadding="@dimen/edge_above"
+                android:hint="@string/choose_password"
+                android:inputType="textPassword"
+                android:padding="@dimen/edge_normal"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white"
+                android:textSize="@dimen/text_mini" />
+
+            <EditText
+                android:id="@+id/et_con_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edge_normal"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:drawableLeft="@drawable/ic_lock_icon"
+                android:drawablePadding="@dimen/edge_above"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"
+                android:padding="@dimen/edge_normal"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white"
+                android:textSize="@dimen/text_mini" >
+            </EditText>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_accout_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_include"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/edge_normal"
+            android:alpha="0.7"
+            android:text="@string/account_type"
+            android:textColor="@color/color_white" />
+
+        <RelativeLayout
+            android:id="@+id/rl_radio_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ll_include"
+            android:layout_alignRight="@+id/ll_include"
+            android:layout_below="@+id/tv_accout_type"
+            android:layout_marginLeft="@dimen/edge_huge"
+            android:layout_marginRight="@dimen/edge_huge" >
+
+            <RadioButton
+                android:id="@+id/rb_personal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="left"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rb_bussiness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ll_include"
+            android:layout_alignRight="@+id/ll_include"
+            android:layout_below="@+id/rl_radio_buttons"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/et_nik_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:gravity="center"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/edge_medium"
+                android:text="@string/nick_name"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white"
+                android:textSize="@dimen/text_mini" />
+
+            <EditText
+                android:id="@+id/et_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edge_normal"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:gravity="center"
+                android:hint="@string/first_name"
+                android:inputType="textPassword"
+                android:padding="@dimen/edge_medium"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white"
+                android:textSize="@dimen/text_mini" />
+
+            <EditText
+                android:id="@+id/et_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edge_normal"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:drawableLeft="@color/color_background"
+                android:gravity="center"
+                android:hint="@string/last_name"
+                android:inputType="textPassword"
+                android:padding="@dimen/edge_medium"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white"
+                android:textSize="@dimen/text_mini" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/et_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/edge_normal"
+                android:text="@string/bithhday_date"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_mini" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ll_input"
+            android:layout_alignRight="@+id/ll_input"
+            android:layout_below="@+id/ll_input"
+            android:layout_marginTop="@dimen/edge_normal"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/et_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/edge_normal"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:gravity="center"
+                android:hint="@string/day_num"
+                android:inputType="date"
+                android:padding="@dimen/edge_normal"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white"
+                android:textSize="@dimen/text_normal" >
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/et_mounth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/edge_normal"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:gravity="center"
+                android:hint="@string/mounth_num"
+                android:inputType="date"
+                android:padding="@dimen/edge_normal"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white" >
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/et_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:background="@drawable/et_input"
+                android:gravity="center"
+                android:hint="@string/year_num"
+                android:inputType="date"
+                android:padding="@dimen/edge_normal"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/color_white" >
+
+            </EditText>
+        </LinearLayout>
+    
+    <Button
+        android:id="@+id/bt_sig_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ll_birthday"
+        android:layout_alignRight="@+id/ll_birthday"
+        android:layout_below="@+id/ll_birthday"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/edge_big"
+        android:layout_marginRight="@dimen/edge_big"
+        android:layout_marginTop="@dimen/edge_medium"
+        android:background="@drawable/orange_roundbutton"
+        android:text="@string/sign_up_reg"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/text_mini" />
+
+    </RelativeLayout>
+
+    </FrameLayout>
