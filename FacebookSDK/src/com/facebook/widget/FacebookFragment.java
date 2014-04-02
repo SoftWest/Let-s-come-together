@@ -16,6 +16,7 @@
 
 package com.facebook.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +25,6 @@ import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.internal.SessionAuthorizationType;
 import com.facebook.internal.SessionTracker;
-
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +39,7 @@ import java.util.List;
  * 
  * <p>The methods in this class are not thread-safe.</p>
  */
+@SuppressLint("ValidFragment")
 class FacebookFragment extends Fragment {
 
     private SessionTracker sessionTracker;
