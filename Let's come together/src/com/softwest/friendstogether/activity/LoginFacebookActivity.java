@@ -52,10 +52,7 @@ public class LoginFacebookActivity
     loginFacebook();
     
     getProfileInformation();
-    
-    Intent mapIntent = new Intent( this, MapActivity.class );
-    startActivity( mapIntent );
-    
+   
     // logoutFromFacebook();
     
   }
@@ -185,6 +182,9 @@ public class LoginFacebookActivity
         String json = response;
         
         CurrentUser user = Primary.fromJson( json, CurrentUser.class );
+       
+            Intent mapIntent = new Intent( LoginFacebookActivity.this, MapActivity.class );
+            startActivity( mapIntent );
         
       }
       

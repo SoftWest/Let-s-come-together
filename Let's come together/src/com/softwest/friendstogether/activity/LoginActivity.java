@@ -51,12 +51,7 @@ public class LoginActivity
         
         break;
       case R.id.tv_sign_in:
-        
-        Fragment f = new RegistrationFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace( R.id.fl_main, f );
-        ft.commit();
-        
+        replace( RegistrationFragment.class, R.id.fl_main, null, true );
         break;
     
     }
