@@ -20,6 +20,8 @@ public class CurrentUser
   
   public String link;
   
+  public String facebookToken;
+  
   public HomeTown hometown;
   
   public Location location;

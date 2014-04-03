@@ -7,7 +7,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -15,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 
@@ -29,35 +29,34 @@ import com.softwest.friendstogether.web.responses.Primary;
 
 @SuppressWarnings( "deprecation" )
 public class LoginFacebookActivity
- 
+  extends BaseActivity
 {
-  private String APP_ID = "1419097081679140";
+  private static String APP_ID = "1419097081679140";
   // Instance of Facebook Class
-  private Facebook facebook;
+  private static Facebook facebook;
   
-  private AsyncFacebookRunner mAsyncRunner;
+  private static AsyncFacebookRunner mAsyncRunner;
   String FILENAME = "AndroidSSO_data";
-  private SharedPreferences mPrefs;
-  private Activity mActivity;
+  private static SharedPreferences mPrefs;
+  private static Activity mActivity;
   
+  private final static int MSG_NAVIGATE = -22;
   // private CurrentUser mUser;
-public LoginFacebookActivity(Activity activity)
-{
-  mActivity = activity;
   
-  getNewFacebookKeyHash();
+  public LoginFacebookActivity( Activity activity )
+  {
+    mActivity = activity;
+    
+    facebook = new Facebook( APP_ID );
+    mAsyncRunner = new AsyncFacebookRunner( facebook );
+   }
   
-  facebook = new Facebook( APP_ID );
-  mAsyncRunner = new AsyncFacebookRunner( facebook );
-
-  loginFacebook();
-}  
-  
+  // get new facebook hashkey
   private void getNewFacebookKeyHash()
   {
     try
     {
-      PackageInfo info = mActivity.getPackageManager().getPackageInfo( mActivity.getPackageName(), PackageManager.GET_SIGNATURES );
+      PackageInfo info = getPackageManager().getPackageInfo( getPackageName(), PackageManager.GET_SIGNATURES );
       
       for( Signature signature : info.signatures )
       {
@@ -75,10 +74,11 @@ public LoginFacebookActivity(Activity activity)
       e.printStackTrace();
     }
   }
-  
+
   public void loginFacebook()
   {
-    mPrefs = mActivity.getPreferences( mActivity.MODE_PRIVATE );
+    mPrefs = PreferenceManager.getDefaultSharedPreferences( mActivity );
+    
     String access_token = mPrefs.getString( "access_token", null );
     long expires = mPrefs.getLong( "access_expires", 0 );
     
@@ -105,6 +105,11 @@ public LoginFacebookActivity(Activity activity)
           editor.putString( "access_token", facebook.getAccessToken() );
           editor.putLong( "access_expires", facebook.getAccessExpires() );
           editor.commit();
+          
+          getProfileInformation();
+          
+          Intent mapIntent = new Intent( mActivity, MapActivity.class );
+          mActivity.startActivity( mapIntent );
         }
         
         @Override
@@ -116,9 +121,13 @@ public LoginFacebookActivity(Activity activity)
         public void onError( DialogError e )
         {
         }
-        
       } );
-    getProfileInformation();
+  }
+  
+  // get user asset token
+  public String getAccessToken()
+  {
+    return facebook.getAccessToken();
   }
   
   public void logoutFromFacebook()
@@ -157,12 +166,14 @@ public LoginFacebookActivity(Activity activity)
     } );
   }
   
-//  @Override
-//  public void onActivityResult( int requestCode, int resultCode, Intent data )
-//  {
-//    super.onActivityResult( requestCode, resultCode, data );
-//    facebook.authorizeCallback( requestCode, resultCode, data );
-//  }
+  @Override
+  public void onActivityResult( int requestCode, int resultCode, Intent data )
+  {
+    super.onActivityResult( requestCode, resultCode, data );
+    
+    facebook.authorizeCallback( requestCode, resultCode, data );
+  }
+  
   
   public void getProfileInformation()
   {
@@ -176,9 +187,7 @@ public LoginFacebookActivity(Activity activity)
         String json = response;
         
         CurrentUser user = Primary.fromJson( json, CurrentUser.class );
-       
-           Intent mapIntent = new Intent( mActivity, MapActivity.class );
-            mActivity.startActivity( mapIntent );
+        user.facebookToken = getAccessToken();
         
       }
       
@@ -203,4 +212,5 @@ public LoginFacebookActivity(Activity activity)
       }
     } );
   }
+  
 }

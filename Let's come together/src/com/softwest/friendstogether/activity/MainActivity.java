@@ -1,7 +1,9 @@
 package com.softwest.friendstogether.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.friendstogether.activity.R;
 
@@ -15,9 +17,20 @@ public class MainActivity
     
     setContentView( R.layout.activity_base );
     
-    Intent intent = new Intent( this, LoginActivity.class );
-    startActivity( intent );
+    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     
+    String access_token = preferences.getString( "access_token", null );
+    
+    if( null == access_token )
+    {
+      Intent intent = new Intent( this, LoginActivity.class );
+      startActivity( intent );
+    }
+    else
+    {
+      Intent mapIntent = new Intent( this, MapActivity.class );
+      startActivity( mapIntent );
+    }
   }
   
 }

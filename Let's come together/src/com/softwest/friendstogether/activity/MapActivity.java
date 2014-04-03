@@ -32,6 +32,12 @@ public class MapActivity
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.user_map );
+    
+    //get information about current user
+    LoginFacebookActivity activity = new LoginFacebookActivity( this );
+    activity.loginFacebook();
+    activity.getProfileInformation();
+    
     // google service = true
     int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
     if( status != ConnectionResult.SUCCESS )
@@ -86,9 +92,6 @@ public class MapActivity
   @Override
   public void onBackPressed()
   {
-    super.onBackPressed();
-  
-    Intent intent = new Intent( this,LoginActivity.class );
-    startActivity( intent );
+   //nothing to do
   }
 }
