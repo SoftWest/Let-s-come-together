@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -27,7 +29,7 @@ import com.softwest.friendstogether.web.responses.Primary;
 
 @SuppressWarnings( "deprecation" )
 public class LoginFacebookActivity
-  extends BaseActivity
+ 
 {
   private String APP_ID = "1419097081679140";
   // Instance of Facebook Class
@@ -36,32 +38,26 @@ public class LoginFacebookActivity
   private AsyncFacebookRunner mAsyncRunner;
   String FILENAME = "AndroidSSO_data";
   private SharedPreferences mPrefs;
+  private Activity mActivity;
   
   // private CurrentUser mUser;
+public LoginFacebookActivity(Activity activity)
+{
+  mActivity = activity;
   
-  @Override
-  public void onCreate( Bundle savedInstanceState )
-  {
-    super.onCreate( savedInstanceState );
-    
-    getNewFacebookKeyHash();
-    
-    facebook = new Facebook( APP_ID );
-    mAsyncRunner = new AsyncFacebookRunner( facebook );
-    
-    loginFacebook();
-    
-    getProfileInformation();
-   
-    // logoutFromFacebook();
-    
-  }
+  getNewFacebookKeyHash();
+  
+  facebook = new Facebook( APP_ID );
+  mAsyncRunner = new AsyncFacebookRunner( facebook );
+
+  loginFacebook();
+}  
   
   private void getNewFacebookKeyHash()
   {
     try
     {
-      PackageInfo info = getPackageManager().getPackageInfo( getPackageName(), PackageManager.GET_SIGNATURES );
+      PackageInfo info = mActivity.getPackageManager().getPackageInfo( mActivity.getPackageName(), PackageManager.GET_SIGNATURES );
       
       for( Signature signature : info.signatures )
       {
@@ -78,13 +74,11 @@ public class LoginFacebookActivity
     {
       e.printStackTrace();
     }
-    
   }
   
-  @SuppressWarnings( "static-access" )
-  private void loginFacebook()
+  public void loginFacebook()
   {
-    mPrefs = getPreferences( MODE_PRIVATE );
+    mPrefs = mActivity.getPreferences( mActivity.MODE_PRIVATE );
     String access_token = mPrefs.getString( "access_token", null );
     long expires = mPrefs.getLong( "access_expires", 0 );
     
@@ -95,7 +89,7 @@ public class LoginFacebookActivity
       facebook.setAccessExpires( expires );
     
     if( !facebook.isSessionValid() )
-      facebook.authorize( this, new String[]{ "email", "publish_stream" }, new DialogListener()
+      facebook.authorize( mActivity, new String[]{ "email", "publish_stream" }, new DialogListener()
       {
         @Override
         public void onCancel()
@@ -124,12 +118,12 @@ public class LoginFacebookActivity
         }
         
       } );
-    
+    getProfileInformation();
   }
   
   public void logoutFromFacebook()
   {
-    mAsyncRunner.logout( this, new RequestListener()
+    mAsyncRunner.logout( mActivity, new RequestListener()
     {
       @Override
       public void onComplete( String response, Object state )
@@ -163,12 +157,12 @@ public class LoginFacebookActivity
     } );
   }
   
-  @Override
-  public void onActivityResult( int requestCode, int resultCode, Intent data )
-  {
-    super.onActivityResult( requestCode, resultCode, data );
-    facebook.authorizeCallback( requestCode, resultCode, data );
-  }
+//  @Override
+//  public void onActivityResult( int requestCode, int resultCode, Intent data )
+//  {
+//    super.onActivityResult( requestCode, resultCode, data );
+//    facebook.authorizeCallback( requestCode, resultCode, data );
+//  }
   
   public void getProfileInformation()
   {
@@ -183,8 +177,8 @@ public class LoginFacebookActivity
         
         CurrentUser user = Primary.fromJson( json, CurrentUser.class );
        
-            Intent mapIntent = new Intent( LoginFacebookActivity.this, MapActivity.class );
-            startActivity( mapIntent );
+           Intent mapIntent = new Intent( mActivity, MapActivity.class );
+            mActivity.startActivity( mapIntent );
         
       }
       
