@@ -70,7 +70,8 @@ public abstract class BaseActivity
    * 
    * @param classInfo class info of new fragment.
    * @param args arguments for newly created fragment.
-   * @param useStack true - add to "back Stack", otherwise false. */
+   * @param useStack true - add to "back Stack", otherwise false. 
+   * @param fragmentPlace - current fragment layout id*/
   public void replace( Class<? extends Fragment> classInfo, int fragmentPlace, Bundle args, boolean useStack )
   {
     if( null != classInfo )
@@ -99,7 +100,8 @@ public abstract class BaseActivity
   /** Replace in activity current fragment by another.
    * 
    * @param fragment the object that extends the class Fragment.
-   * @param args arguments for fragment. */
+   * @param args arguments for fragment. 
+   * @param fragmentPlace - current fragment layout id*/
   public void replace( final Fragment fragment, final Bundle args, int fragmentPlase )
   {
     replace( fragment, args, false, fragmentPlase );
@@ -108,7 +110,8 @@ public abstract class BaseActivity
    * 
    * @param fragment the object that extends the class Fragment.
    * @param args arguments for fragment.
-   * @param useStack true - add to "back Stack", otherwise false. */
+   * @param useStack true - add to "back Stack", otherwise false.
+   * @param fragmentPlace - current fragment layout id*/
   public void replace( final Fragment fragment, final Bundle args, final boolean useStack, int fragmentPlase )
   {
     if( null != fragment && !isFinishing() )
