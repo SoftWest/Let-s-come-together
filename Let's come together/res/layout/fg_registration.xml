@@ -84,7 +84,7 @@
                 android:layout_marginTop="@dimen/edge_normal"
                 android:alpha="0.5"
                 android:background="@drawable/et_input"
-                android:drawableLeft="@drawable/ic_lock_icon"
+                android:drawableLeft="@drawable/ic_lock_green_icon"
                 android:drawablePadding="@dimen/edge_above"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword"
