@@ -41,9 +41,12 @@ public class LoginActivity
     switch( v.getId() )
     {
       case R.id.btn_facebook:
-        LoginFacebookActivity login = new LoginFacebookActivity( this );
-        login.loginFacebook();
-
+        Intent intent = new Intent(this,LoginFacebookActivity.class);
+        startActivity( intent );
+//        LoginFacebookActivity login = new LoginFacebookActivity( this );
+//        login.loginFacebook();
+  //      login.getProfileInformation();
+       
         break;
       
       case R.id.btn_twitter:

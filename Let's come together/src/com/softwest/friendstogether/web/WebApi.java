@@ -11,13 +11,26 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.ProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -37,8 +50,8 @@ public class WebApi
   public static final int Timeout = 7 * 1000 + 500;
   /** Read timeout. Default: 5 seconds. */
   public static final int ReadTimeout = 5 * 1000;
-  /** WEB Host name*/
-  private static final String WEB_HOST = "host name";
+  /** WEB Host name */
+  private final static String WEB_HOST = "http://come2gether.softwest.net/";
   
   /** Compose Web API call URL with digital signature of parameters.
    * 
@@ -89,6 +102,7 @@ public class WebApi
   {
     return doRequest( url, content, CONTENT_TYPE_JSON );
   }
+  
   /** Do Web API call by specified URL, content and content type.
    * 
    * @param url URL for call
@@ -126,6 +140,46 @@ public class WebApi
     final String result = readUTF8( input );
     
     return result;
+    
+  }
+  
+  public void postData( Context context )
+  {
+    // Create a new HttpClient and Post Header
+    try
+    {
+      HttpClient httpclient = new DefaultHttpClient();
+      
+      HttpPost httppost = new HttpPost( WebApi.WEB_HOST );
+      
+      // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+      // String access_token = preferences.getString( "access_token", null );
+      
+      
+      // Add your data
+      List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>( 2 );
+      nameValuePairs.add( new BasicNameValuePair( "token_access", "" ) );
+      
+      httppost.setEntity( new UrlEncodedFormEntity( nameValuePairs, "UTF-8" ) );
+      
+      // Execute HTTP Post Request
+      HttpResponse response = httpclient.execute( httppost );
+      
+      HttpEntity respEntity = response.getEntity();
+      
+      if( respEntity != null )
+      {
+        // EntityUtils to get the response content
+        String content = EntityUtils.toString( respEntity );
+        Log.i( "response", "response" + content );
+      }
+      
+    }
+    catch( Throwable e )
+    {
+      Log.e( LetIsGoTogetherAPP.TAG, "exeption json" + e );
+    }
+    
   }
   
   private static void doPostRequest( HttpURLConnection connection, String contentType, String content )
@@ -165,14 +219,19 @@ public class WebApi
   public interface Methods
   {
     /** */
-    public final static String Example = "/example.php";
+    public final static String TOKEN_FACEOOK = "/req/authappfb";
     
   }
   
   /** List of known query parameters for web methods. */
   public interface Query
   {
-    public final static String EXAMPLE = "example";
+    public final static String TOKEN_ACCESS = "token_access";
   }
   // #endregion
+  public interface Requests
+  {
+    public final static String POST = "post";
+    public final static String GET = "get";
+  }
 }

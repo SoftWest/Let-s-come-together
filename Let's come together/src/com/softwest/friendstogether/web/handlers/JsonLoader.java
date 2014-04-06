@@ -1,8 +1,5 @@
 package com.softwest.friendstogether.web.handlers;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +61,6 @@ public class JsonLoader
   {
     mContent = Parameters.toJson( param );
   }
-  
   
   /** Returns captured response.
    * 

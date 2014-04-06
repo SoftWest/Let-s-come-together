@@ -4,14 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,19 +27,46 @@ import com.softwest.friendstogether.web.responses.Primary;
 
 @SuppressWarnings( "deprecation" )
 public class LoginFacebookActivity
-  extends BaseActivity
+  extends Activity
+  implements DialogListener, RequestListener
+
 {
   private static String APP_ID = "1419097081679140";
-  // Instance of Facebook Class
-  private static Facebook facebook;
   
-  private static AsyncFacebookRunner mAsyncRunner;
+  // Instance of Facebook Class
+  private Facebook facebook = new Facebook( APP_ID );
+  private AsyncFacebookRunner mAsyncRunner;
+  
   String FILENAME = "AndroidSSO_data";
   private static SharedPreferences mPrefs;
   private static Activity mActivity;
   
-  private final static int MSG_NAVIGATE = -22;
-  // private CurrentUser mUser;
+  private String[] permissions = new String[]{ "read_stream", "email", "publish_actions", "read_friendlists",
+      "user_location", "user_friends", "user_status", "friends_location" };
+  
+  @Override
+  protected void onCreate( Bundle savedInstanceState )
+  {
+    super.onCreate( savedInstanceState );
+    
+    mAsyncRunner = new AsyncFacebookRunner( facebook );
+    mActivity = this;
+    
+    getNewFacebookKeyHash();
+    
+    loginFacebook();
+    
+    if( facebook.isSessionValid() )
+    {
+      Intent mapIntent = new Intent( mActivity, MapActivity.class );
+      startActivity( mapIntent );
+    }
+  }
+  
+  /** empty constructor */
+  public LoginFacebookActivity()
+  {
+  };
   
   public LoginFacebookActivity( Activity activity )
   {
@@ -49,14 +74,15 @@ public class LoginFacebookActivity
     
     facebook = new Facebook( APP_ID );
     mAsyncRunner = new AsyncFacebookRunner( facebook );
-   }
+  };
   
-  // get new facebook hashkey
+  /** get new facebook hashkey */
   private void getNewFacebookKeyHash()
   {
     try
     {
-      PackageInfo info = getPackageManager().getPackageInfo( getPackageName(), PackageManager.GET_SIGNATURES );
+      PackageInfo info = mActivity.getPackageManager().getPackageInfo( mActivity.getPackageName(),
+          PackageManager.GET_SIGNATURES );
       
       for( Signature signature : info.signatures )
       {
@@ -65,16 +91,13 @@ public class LoginFacebookActivity
         Log.d( "KeyHash", Base64.encodeToString( md.digest(), Base64.DEFAULT ) );
       }
     }
-    catch( NameNotFoundException e )
+    catch( Throwable ignored )
     {
-      e.printStackTrace();
-    }
-    catch( NoSuchAlgorithmException e )
-    {
-      e.printStackTrace();
+      // do nothing
     }
   }
-
+  
+  /** login facebook */
   public void loginFacebook()
   {
     mPrefs = PreferenceManager.getDefaultSharedPreferences( mActivity );
@@ -89,81 +112,19 @@ public class LoginFacebookActivity
       facebook.setAccessExpires( expires );
     
     if( !facebook.isSessionValid() )
-      facebook.authorize( mActivity, new String[]{ "email", "publish_stream" }, new DialogListener()
-      {
-        @Override
-        public void onCancel()
-        {
-        }
-        
-        @Override
-        public void onComplete( Bundle values )
-        {
-          // Function to handle complete event
-          // Edit Preferences and update facebook acess_token
-          SharedPreferences.Editor editor = mPrefs.edit();
-          editor.putString( "access_token", facebook.getAccessToken() );
-          editor.putLong( "access_expires", facebook.getAccessExpires() );
-          editor.commit();
-          
-          getProfileInformation();
-          
-          Intent mapIntent = new Intent( mActivity, MapActivity.class );
-          mActivity.startActivity( mapIntent );
-        }
-        
-        @Override
-        public void onFacebookError( FacebookError e )
-        {
-        }
-        
-        @Override
-        public void onError( DialogError e )
-        {
-        }
-      } );
+      facebook.authorize( mActivity, permissions, this );
   }
   
-  // get user asset token
+  /** @return facebook token */
   public String getAccessToken()
   {
     return facebook.getAccessToken();
   }
   
+  /** log out from facebook */
   public void logoutFromFacebook()
   {
-    mAsyncRunner.logout( mActivity, new RequestListener()
-    {
-      @Override
-      public void onComplete( String response, Object state )
-      {
-        Log.d( "Logout from Facebook", response );
-        if( Boolean.parseBoolean( response ) == true )
-        {
-          // User successfully Logged out
-        }
-      }
-      
-      @Override
-      public void onIOException( IOException e, Object state )
-      {
-      }
-      
-      @Override
-      public void onFileNotFoundException( FileNotFoundException e, Object state )
-      {
-      }
-      
-      @Override
-      public void onMalformedURLException( MalformedURLException e, Object state )
-      {
-      }
-      
-      @Override
-      public void onFacebookError( FacebookError e, Object state )
-      {
-      }
-    } );
+    mAsyncRunner.logout( this, this );
   }
   
   @Override
@@ -174,43 +135,79 @@ public class LoginFacebookActivity
     facebook.authorizeCallback( requestCode, resultCode, data );
   }
   
-  
+  /** get profile information */
   public void getProfileInformation()
   {
-    mAsyncRunner.request( "me", new RequestListener()
+    mAsyncRunner.request( "me", this );
+  }
+  
+  @Override
+  public void onComplete( String response, Object state )
+  {
+    if( !Boolean.parseBoolean( response ) == true )
     {
-      @Override
-      public void onComplete( String response, Object state )
-      {
-        Log.d( "Profile", response );
-        
-        String json = response;
-        
-        CurrentUser user = Primary.fromJson( json, CurrentUser.class );
-        user.facebookToken = getAccessToken();
-        
-      }
+      // LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
+      Log.d( "Profile", response );
       
-      @Override
-      public void onIOException( IOException e, Object state )
-      {
-      }
+      String json = response;
       
-      @Override
-      public void onFileNotFoundException( FileNotFoundException e, Object state )
-      {
-      }
+      CurrentUser user = Primary.fromJson( json, CurrentUser.class );
+      // app.setCurrentUser( user );
       
-      @Override
-      public void onMalformedURLException( MalformedURLException e, Object state )
-      {
-      }
+      user.facebookToken = getAccessToken();
+    }
+    else
+    {
+      Log.d( "Logout from Facebook", response );
       
-      @Override
-      public void onFacebookError( FacebookError e, Object state )
-      {
-      }
-    } );
+      // User successfully Logged out
+    }
+  }
+  
+  @Override
+  public void onComplete( Bundle values )
+  {
+    // Function to handle complete event
+    // Edit Preferences and update facebook acess_token
+    SharedPreferences.Editor editor = mPrefs.edit();
+    editor.putString( "access_token", facebook.getAccessToken() );
+    editor.putLong( "access_expires", facebook.getAccessExpires() );
+    editor.commit();
+  }
+  
+  @Override
+  public void onFacebookError( FacebookError e )
+  {
+  }
+  
+  @Override
+  public void onError( DialogError e )
+  {
+  }
+  
+  @Override
+  public void onCancel()
+  {
+  }
+  
+  @Override
+  public void onIOException( IOException e, Object state )
+  {
+  }
+  
+  @Override
+  public void onFileNotFoundException( FileNotFoundException e, Object state )
+  {
+  }
+  
+  @Override
+  public void onMalformedURLException( MalformedURLException e, Object state )
+  {
+  }
+  
+  @Override
+  public void onFacebookError( FacebookError e, Object state )
+  {
   }
   
 }

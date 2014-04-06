@@ -18,10 +18,19 @@ public final class Loaders
   }
   // #region Known loaders
   
-  public static Loader<Primary> example( final Context context, String applicationName )
+//  public static Loader<Primary> example( final Context context, String applicationName )
+//  {
+//    JsonLoader loader = new JsonLoader( context, WebApi.Methods.Example, ApiHandlers.REGISTER_TOKEN );
+////    loader.addParameters( WebApi.Query.EXAMPLE, applicationName );
+////   
+//    return loader;
+//  }
+  
+  
+  public static Loader<Primary> sendFacebookToken( final Context context, String facebookToken )
   {
-    JsonLoader loader = new JsonLoader( context, WebApi.Methods.Example, ApiHandlers.REGISTRATION_APP );
-    loader.addParameters( WebApi.Query.EXAMPLE, applicationName );
+    JsonLoader loader = new JsonLoader( context, WebApi.Methods.TOKEN_FACEOOK, ApiHandlers.REGISTER_TOKEN );
+    loader.addParameters( WebApi.Query.TOKEN_ACCESS, facebookToken );
    
     return loader;
   }

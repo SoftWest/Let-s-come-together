@@ -2,7 +2,7 @@
 <resources>
 
     <!-- app name -->
-
+ <string name="app_id">1419097081679140</string>
     <string name="app_name">Come Together</string>
     <string name="action_settings">Settings</string>
 

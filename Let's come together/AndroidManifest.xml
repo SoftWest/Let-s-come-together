@@ -25,6 +25,7 @@
         android:required="true" />
 
     <application
+        android:name="com.softwest.friendstogether.LetIsGoTogetherAPP"
         android:allowBackup="true"
         android:icon="@drawable/icon_program"
         android:label="@string/app_name"
@@ -36,6 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity
+        android:name="com.facebook.LoginActivity"
+        >
+    </activity>
         <activity
             android:name="com.softwest.friendstogether.activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -43,16 +48,18 @@
         </activity>
         <activity android:name="com.softwest.friendstogether.activity.LoginFacebookActivity" >
         </activity>
-           <activity android:name="com.softwest.friendstogether.activity.MapActivity"></activity>
-   
-            <meta-data
+        <activity android:name="com.softwest.friendstogether.activity.MapActivity" >
+        </activity>
+
+        <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyChiq9LB2FSqsvOqN8EFOxvKPsiLVGQzl0" />
-        
-           <meta-data
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-        
-           </application>
+            android:value="@integer/google_play_services_version" />
+    </application>
 
 </manifest>
