@@ -28,8 +28,8 @@ public class MainActivity
     }
     else
     {
-      Intent mapIntent = new Intent( this, MapActivity.class );
-      startActivity( mapIntent );
+      Intent intent = new Intent( this, LoginFacebookActivity .class );
+      startActivity( intent );
     }
   }
   

@@ -46,15 +46,11 @@ public class MapActivity
     super.onCreate( savedInstanceState );
     setContentView( R.layout.user_map );
     
-    LoginFacebookActivity activity = new LoginFacebookActivity(this);
-    activity.loginFacebook();
-    activity.getProfileInformation();
-    
     // get information about current user
     LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
     
     CurrentUser user = app.getCurrentUser();
-    //mFacebookToken = user.facebookToken;
+    mFacebookToken = user.facebookToken;
     
     getLoaderManager().restartLoader( LOADER_FACEBOOK_TOKEN, null, this );
     
