@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 
@@ -99,6 +100,11 @@ public class LoginFacebookActivity
   {
     if( null != user )
     {
+      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+      SharedPreferences.Editor editor = preferences.edit();
+      editor.putString("access_token",getFacebookToken());
+      editor.commit();
+      
       GraphObject object = user;
       String json = object.getInnerJSONObject().toString();
       
