@@ -2,28 +2,20 @@ package com.softwest.friendstogether.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.facebook.Request;
-import com.facebook.Request.GraphUserCallback;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.Session.StatusCallback;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.friendstogether.activity.R;
-import com.softwest.friendstogether.LetIsGoTogetherAPP;
 import com.softwest.friendstogether.fragment.RegistrationFragment;
 
 public class LoginActivity
   extends BaseActivity
   implements OnClickListener
 {
+
   private LoginButton mLoginFacebook;
   private Button mLoginProgram;
   private TextView mSigIn;
@@ -47,7 +39,7 @@ public class LoginActivity
     mLoginFacebook.setOnClickListener( this );
     mLoginProgram.setOnClickListener( this );
     mSigIn.setOnClickListener( this );
-    
+   
   }
   
   @Override
@@ -69,6 +61,5 @@ public class LoginActivity
     
     }
   }
-
  
 }

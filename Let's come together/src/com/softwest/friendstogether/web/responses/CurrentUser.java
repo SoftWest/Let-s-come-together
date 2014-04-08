@@ -13,9 +13,7 @@ public class CurrentUser
   extends Primary
 {
   public long id;
-  
-  public String server_token;
-  
+ 
   public String name;
   public String first_name;
   public String last_name;

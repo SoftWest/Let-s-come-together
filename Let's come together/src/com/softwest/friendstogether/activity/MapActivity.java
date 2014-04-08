@@ -1,12 +1,11 @@
 package com.softwest.friendstogether.activity;
 
+import org.apache.http.HttpResponse;
+
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.app.Dialog;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.Context;
-import android.content.Loader;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.friendstogether.activity.R;
@@ -22,14 +21,16 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 import com.softwest.friendstogether.utils.UserLocation;
-import com.softwest.friendstogether.web.handlers.Loaders;
+import com.softwest.friendstogether.web.handlers.HttpMethods;
+import com.softwest.friendstogether.web.handlers.IResponse;
 import com.softwest.friendstogether.web.responses.CurrentUser;
+import com.softwest.friendstogether.web.responses.FacebookToken;
 import com.softwest.friendstogether.web.responses.Primary;
 
 @SuppressLint("NewApi")
 public class MapActivity
   extends BaseActivity
-  implements LoaderCallbacks<Primary>
+  implements IResponse
 {
   
   private static final int LOADER_FACEBOOK_TOKEN = 5;
@@ -52,7 +53,7 @@ public class MapActivity
     CurrentUser user = app.getCurrentUser();
     mFacebookToken = user.facebookToken;
     
-    getLoaderManager().restartLoader( LOADER_FACEBOOK_TOKEN, null, this );
+    HttpMethods.sendFacebookToken( this, mFacebookToken,this );
     
     // google service = true
     int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
@@ -98,7 +99,6 @@ public class MapActivity
       {
         Toast.makeText( getApplicationContext(), "Your Location is - \nLat: " + mLatitude + "\nLong: " + mLongitude,
             Toast.LENGTH_LONG ).show();
-        
       }
     } );
     
@@ -109,28 +109,16 @@ public class MapActivity
   {
     // nothing to do
   }
-  
+
   @Override
-  public Loader<Primary> onCreateLoader( int id, Bundle args )
+  public Primary process( String json )
   {
-    if( id == LOADER_FACEBOOK_TOKEN )
-    {
-       Loaders.sendFacebookToken( this, mFacebookToken );
-    }
-    
+   
+    Log.i( "response", "response "+ json );
+   
+    FacebookToken user = Primary.fromJson( json, FacebookToken.class );
     return null;
   }
+
   
-  @Override
-  public void onLoadFinished( Loader<Primary> loader, Primary data )
-  {
-    
-  }
-  
-  @Override
-  public void onLoaderReset( Loader<Primary> loader )
-  {
-    // do nothing
-  }
- 
 }

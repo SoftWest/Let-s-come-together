@@ -1,40 +1,8 @@
 package com.softwest.friendstogether.web;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.ProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-
-import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
+
+
 
 /** Web API integration helper class. */
 public class WebApi
@@ -42,196 +10,33 @@ public class WebApi
   // #region Constants
   /** Tag for logging. */
   private static final String TAG = LetIsGoTogetherAPP.TAG;
-  
   /** UTF-8 encoding name. */
   public final static String UTF8 = "UTF-8";
-  private static final String CONTENT_TYPE_JSON = "application/json";
+  /** HTTP response cache size. Default: 10Mb. */
+  public static final long Http_Cache_Size = 10 * 1024 * 1024;
   /** Connection establishing timeout. Default: 7.5 seconds. */
   public static final int Timeout = 7 * 1000 + 500;
   /** Read timeout. Default: 5 seconds. */
   public static final int ReadTimeout = 5 * 1000;
-  /** WEB Host name */
-  private final static String WEB_HOST = "http://come2gether.softwest.net/";
+ 
+  public final static String WEB_HOST = "http://come2gether.softwest.net";
+  /** Default content type for calls. */
+  public final static String CONTENT_TYPE_JSON = "application/json";
+  // #endregion
   
-  /** Compose Web API call URL with digital signature of parameters.
-   * 
-   * @param method method name
-   * @param params list of parameters
-   * @return composed URL as string. */
-  public static String makeUrl( String method, List<NameValuePair> params )
-  {
-    final int size = ( null == params ) ? 0 : params.size();
-    String separate = "";
-    
-    StringBuilder urlBuilder = new StringBuilder( 2048 );
-    
-    urlBuilder.append( WEB_HOST ).append( method );
-    
-    if( size > 0 )
-    {
-      separate = "?";
-      for( int i = 0; i < size; i++ )
-      {
-        NameValuePair pair = params.get( i );
-        
-        urlBuilder.append( separate );
-        urlBuilder.append( Uri.encode( pair.getName() ) );
-        urlBuilder.append( '=' );
-        urlBuilder.append( Uri.encode( pair.getValue() ) );
-        
-        separate = "&"; // after first parameter all other should start from &amp;
-      }
-    }
-    
-    return urlBuilder.toString();
-  }
-  
-  /** Do Web API call by specified URL, content and content type.
-   * 
-   * @param url URL for call
-   * @param content POST content
-   * @param contentTypeJson
-   * @return response as a string
-   * @throws MalformedURLException
-   * @throws IOException
-   * @throws NoSuchAlgorithmException
-   * @throws KeyManagementException
-   * @throws ProtocolException */
-  public static String doRequest( final String url, final String content ) throws MalformedURLException, IOException,
-      NoSuchAlgorithmException, KeyManagementException
-  {
-    return doRequest( url, content, CONTENT_TYPE_JSON );
-  }
-  
-  /** Do Web API call by specified URL, content and content type.
-   * 
-   * @param url URL for call
-   * @param content POST content
-   * @param contentType redefine body content type
-   * @return response as a string
-   * @throws MalformedURLException
-   * @throws IOException
-   * @throws NoSuchAlgorithmException
-   * @throws KeyManagementException */
-  public static String doRequest( String url, String content, String contentType ) throws MalformedURLException,
-      IOException, NoSuchAlgorithmException, KeyManagementException
-  {
-    final HttpURLConnection connection = ( HttpURLConnection )new URL( url ).openConnection();
-    
-    // configure timeout options
-    connection.setConnectTimeout( Timeout );
-    connection.setReadTimeout( ReadTimeout );
-    
-    connection.setUseCaches( true );
-    
-    connection.setRequestMethod( "GET" );
-    connection.setDoInput( true );
-    
-    if( !TextUtils.isEmpty( content ) )
-      doPostRequest( connection, contentType, content );
-    
-    Log.i( TAG, "Request Method: " + connection.getRequestMethod() );
-    connection.connect();
-    
-    Log.i( TAG, "Response Code: " + connection.getResponseCode() );
-    
-    final InputStream input = connection.getInputStream();
-    
-    final String result = readUTF8( input );
-    
-    return result;
-    
-  }
-  
-  public void postData( Context context )
-  {
-    // Create a new HttpClient and Post Header
-    try
-    {
-      HttpClient httpclient = new DefaultHttpClient();
-      
-      HttpPost httppost = new HttpPost( WebApi.WEB_HOST );
-      
-      // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-      // String access_token = preferences.getString( "access_token", null );
-      
-      
-      // Add your data
-      List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>( 2 );
-      nameValuePairs.add( new BasicNameValuePair( "token_access", "" ) );
-      
-      httppost.setEntity( new UrlEncodedFormEntity( nameValuePairs, "UTF-8" ) );
-      
-      // Execute HTTP Post Request
-      HttpResponse response = httpclient.execute( httppost );
-      
-      HttpEntity respEntity = response.getEntity();
-      
-      if( respEntity != null )
-      {
-        // EntityUtils to get the response content
-        String content = EntityUtils.toString( respEntity );
-        Log.i( "response", "response" + content );
-      }
-      
-    }
-    catch( Throwable e )
-    {
-      Log.e( LetIsGoTogetherAPP.TAG, "exeption json" + e );
-    }
-    
-  }
-  
-  private static void doPostRequest( HttpURLConnection connection, String contentType, String content )
-      throws java.net.ProtocolException, IOException, UnsupportedEncodingException
-  {
-    Log.i( TAG, "Request Content-Type: " + contentType );
-    
-    connection.setDoOutput( true );
-    connection.setRequestMethod( "POST" );
-    connection.addRequestProperty( "Content-Type", contentType );
-    
-    // place call parameters into body
-    final OutputStream output = connection.getOutputStream();
-    output.write( content.getBytes( UTF8 ) );
-  }
-  
-  private static String readUTF8( InputStream stream ) throws IOException
-  {
-    final InputStreamReader reader = new InputStreamReader( stream, UTF8 );
-    StringWriter writer = new StringWriter();
-    
-    int len = 0;
-    char[] buffer = new char[ 2048 ];
-    
-    while( ( len = reader.read( buffer ) ) > 0 )
-    {
-      writer.write( buffer, 0, len );
-    }
-    
-    // close reader after all
-    reader.close();
-    
-    return writer.toString();
-  }
-  
+  // #region Nested declarations
   /** List of all known to WEB API methods. */
   public interface Methods
   {
     /** */
-    public final static String TOKEN_FACEOOK = "/req/authappfb";
-    
+    public final static String Facebook_Token = "/req/authappfb";
   }
   
   /** List of known query parameters for web methods. */
   public interface Query
   {
-    public final static String TOKEN_ACCESS = "token_access";
+    public final static String TOKEN = "user_fb_token";
   }
   // #endregion
-  public interface Requests
-  {
-    public final static String POST = "post";
-    public final static String GET = "get";
-  }
+ 
 }
