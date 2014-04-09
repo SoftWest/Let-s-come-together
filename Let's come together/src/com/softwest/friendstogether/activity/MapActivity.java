@@ -32,14 +32,13 @@ public class MapActivity
   extends BaseActivity
   implements IResponse
 {
-  
-  private static final int LOADER_FACEBOOK_TOKEN = 5;
   private String mFacebookToken;
   
   private GoogleMap gMap;
   private UserLocation gps;
   private double mLatitude;
   private double mLongitude;
+  private Dialog mDialog; 
   
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -60,8 +59,8 @@ public class MapActivity
     if( status != ConnectionResult.SUCCESS )
     {
       int requestCode = 10;
-      Dialog dialog = GooglePlayServicesUtil.getErrorDialog( status, this, requestCode );
-      dialog.show();
+      mDialog = GooglePlayServicesUtil.getErrorDialog( status, this, requestCode );
+      mDialog.show();
       
     }
     else
@@ -103,7 +102,13 @@ public class MapActivity
     } );
     
   }
-  
+  @Override
+  protected void onPause()
+  {
+    super.onPause();
+   //hide dialog
+    mDialog.dismiss();
+  }
   @Override
   public void onBackPressed()
   {
