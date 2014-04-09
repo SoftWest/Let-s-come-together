@@ -23,11 +23,12 @@ import com.softwest.friendstogether.LetIsGoTogetherAPP;
 import com.softwest.friendstogether.utils.UserLocation;
 import com.softwest.friendstogether.web.handlers.HttpMethods;
 import com.softwest.friendstogether.web.handlers.IResponse;
+import com.softwest.friendstogether.web.responses.ComeTogetherEror;
 import com.softwest.friendstogether.web.responses.CurrentUser;
 import com.softwest.friendstogether.web.responses.FacebookToken;
 import com.softwest.friendstogether.web.responses.Primary;
 
-@SuppressLint("NewApi")
+@SuppressLint( "NewApi" )
 public class MapActivity
   extends BaseActivity
   implements IResponse
@@ -39,7 +40,7 @@ public class MapActivity
   private AdView mAdView;
   private double mLatitude;
   private double mLongitude;
-  private Dialog mDialog; 
+  private Dialog mDialog;
   
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -47,10 +48,10 @@ public class MapActivity
     super.onCreate( savedInstanceState );
     setContentView( R.layout.user_map );
     
-  //adMob
-    AdView adView = (AdView)this.findViewById(R.id.adMob);
+    // adMob
+    AdView adView = ( AdView )this.findViewById( R.id.adMob );
     AdRequest adRequest = new AdRequest.Builder().build();
-    adView.loadAd(adRequest);
+    adView.loadAd( adRequest );
     
     // get information about current user
     LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
@@ -58,7 +59,7 @@ public class MapActivity
     CurrentUser user = app.getCurrentUser();
     mFacebookToken = user.facebookToken;
     
-    HttpMethods.sendFacebookToken( this, mFacebookToken,this );
+    HttpMethods.sendFacebookToken( this, mFacebookToken, this );
     
     // google service = true
     int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
@@ -109,31 +110,36 @@ public class MapActivity
     
   }
   
-  
-//---------------------AdMob-----------------------------
+  // ---------------------AdMob-----------------------------
   @Override
-  public void onResume() {
+  public void onResume()
+  {
     super.onResume();
-    if (mAdView != null) {
+    if( mAdView != null )
+    {
       mAdView.resume();
     }
   }
-
+  
   @Override
-  public void onPause() {
-    //hide dialog
-    if (mAdView != null) {
+  public void onPause()
+  {
+    // hide dialog
+    if( mAdView != null )
+    {
       mAdView.pause();
     }
     super.onPause();
-  
-  //  mDialog.dismiss();
+    
+    // mDialog.dismiss();
   }
   
   /** Called before the activity is destroyed. */
   @Override
-  public void onDestroy() {
-    if (mAdView != null) {
+  public void onDestroy()
+  {
+    if( mAdView != null )
+    {
       // Destroy the AdView.
       mAdView.destroy();
     }
@@ -142,9 +148,11 @@ public class MapActivity
   
   /** Gets a string error reason from an error code. */
   @SuppressWarnings( "unused" )
-  private String getErrorReason(int errorCode) {
+  private String getErrorReason( int errorCode )
+  {
     String errorReason = "";
-    switch(errorCode) {
+    switch( errorCode )
+    {
       case AdRequest.ERROR_CODE_INTERNAL_ERROR:
         errorReason = "Internal error";
         break;
@@ -160,23 +168,31 @@ public class MapActivity
     }
     return errorReason;
   }
-//---------------------AdMob-----------------------------
- 
+  
+  // ---------------------AdMob-----------------------------
+  
   @Override
   public void onBackPressed()
   {
     // nothing to do
   }
-
+  
   @Override
   public Primary process( String json )
   {
-    Log.i( "response", "response "+ json );
-   
-    FacebookToken user = Primary.fromJson( json, FacebookToken.class );
+    Log.i( "response", "response " + json );
     
-    return null;
+    if( json.contains( "error" ) || json.contains("exception" ) )
+    {
+        ComeTogetherEror error = Primary.fromJson( json, ComeTogetherEror.class );
+      
+         Toast.makeText( this, error.fbToken, Toast.LENGTH_LONG ).show();
+    }
+    else
+    {
+      FacebookToken user = Primary.fromJson( json, FacebookToken.class );
+    }
+      return null;
   }
-
   
 }

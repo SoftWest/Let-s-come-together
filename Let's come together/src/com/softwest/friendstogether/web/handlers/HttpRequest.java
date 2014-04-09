@@ -2,12 +2,10 @@ package com.softwest.friendstogether.web.handlers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -20,9 +18,11 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.requests.Parameters;
+import com.softwest.friendstogether.web.responses.ComeTogetherEror;
 
 public class HttpRequest
 
@@ -129,10 +129,17 @@ public class HttpRequest
       }
       catch( Throwable ignore )
       {
+        if( null != mHandlerResponse )
+          mHandlerResponse.process( ignore.toString() );
+        
         Log.w( LetIsGoTogetherAPP.TAG, "exeption " + ignore );
       }
       
     }
   }
-  
+  public ComeTogetherEror getRerror(final String root) throws IOException
+  {
+   
+    return null;
+  }
 }
