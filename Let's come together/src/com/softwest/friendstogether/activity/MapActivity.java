@@ -1,7 +1,5 @@
 package com.softwest.friendstogether.activity;
 
-import org.apache.http.HttpResponse;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,6 +7,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.friendstogether.activity.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,8 +34,9 @@ public class MapActivity
 {
   private String mFacebookToken;
   
-  private GoogleMap gMap;
-  private UserLocation gps;
+  private GoogleMap mGMap;
+  private UserLocation mGps;
+  private AdView mAdView;
   private double mLatitude;
   private double mLongitude;
   private Dialog mDialog; 
@@ -45,6 +46,11 @@ public class MapActivity
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.user_map );
+    
+  //adMob
+    AdView adView = (AdView)this.findViewById(R.id.adMob);
+    AdRequest adRequest = new AdRequest.Builder().build();
+    adView.loadAd(adRequest);
     
     // get information about current user
     LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
@@ -67,30 +73,30 @@ public class MapActivity
     {
       // map fragment
       SupportMapFragment fmap = ( SupportMapFragment )getSupportFragmentManager().findFragmentById( R.id.map );
-      gMap = fmap.getMap();
+      mGMap = fmap.getMap();
       
     }
-    gps = new UserLocation( MapActivity.this );
+    mGps = new UserLocation( MapActivity.this );
     // get current user location
-    gMap.setMyLocationEnabled( true );
+    mGMap.setMyLocationEnabled( true );
     
-    if( gps.canGetLocation() )
+    if( mGps.canGetLocation() )
     {
-      mLatitude = gps.getLatitude();
-      mLongitude = gps.getLongitude();
+      mLatitude = mGps.getLatitude();
+      mLongitude = mGps.getLongitude();
     }
     // marker add
     MarkerOptions marker1 = new MarkerOptions().position( new LatLng( mLatitude, mLongitude ) ).title( "User Name" )
         .snippet( "my friend" ).icon( BitmapDescriptorFactory.fromResource( R.drawable.user_icon ) );
-    gMap.addMarker( marker1 );
+    mGMap.addMarker( marker1 );
     
     // camera map
     CameraPosition cameraPosition = new CameraPosition.Builder().target( new LatLng( mLatitude, mLongitude ) )
         .zoom( 12 ).build();
-    gMap.animateCamera( CameraUpdateFactory.newCameraPosition( cameraPosition ) );
+    mGMap.animateCamera( CameraUpdateFactory.newCameraPosition( cameraPosition ) );
     
     // click icon
-    gMap.setOnInfoWindowClickListener( new GoogleMap.OnInfoWindowClickListener()
+    mGMap.setOnInfoWindowClickListener( new GoogleMap.OnInfoWindowClickListener()
     {
       
       @Override
@@ -102,13 +108,60 @@ public class MapActivity
     } );
     
   }
+  
+  
+//---------------------AdMob-----------------------------
   @Override
-  protected void onPause()
-  {
-    super.onPause();
-   //hide dialog
-    mDialog.dismiss();
+  public void onResume() {
+    super.onResume();
+    if (mAdView != null) {
+      mAdView.resume();
+    }
   }
+
+  @Override
+  public void onPause() {
+    //hide dialog
+    if (mAdView != null) {
+      mAdView.pause();
+    }
+    super.onPause();
+  
+  //  mDialog.dismiss();
+  }
+  
+  /** Called before the activity is destroyed. */
+  @Override
+  public void onDestroy() {
+    if (mAdView != null) {
+      // Destroy the AdView.
+      mAdView.destroy();
+    }
+    super.onDestroy();
+  }
+  
+  /** Gets a string error reason from an error code. */
+  @SuppressWarnings( "unused" )
+  private String getErrorReason(int errorCode) {
+    String errorReason = "";
+    switch(errorCode) {
+      case AdRequest.ERROR_CODE_INTERNAL_ERROR:
+        errorReason = "Internal error";
+        break;
+      case AdRequest.ERROR_CODE_INVALID_REQUEST:
+        errorReason = "Invalid request";
+        break;
+      case AdRequest.ERROR_CODE_NETWORK_ERROR:
+        errorReason = "Network Error";
+        break;
+      case AdRequest.ERROR_CODE_NO_FILL:
+        errorReason = "No fill";
+        break;
+    }
+    return errorReason;
+  }
+//---------------------AdMob-----------------------------
+ 
   @Override
   public void onBackPressed()
   {
@@ -118,10 +171,10 @@ public class MapActivity
   @Override
   public Primary process( String json )
   {
-   
     Log.i( "response", "response "+ json );
    
     FacebookToken user = Primary.fromJson( json, FacebookToken.class );
+    
     return null;
   }
 
