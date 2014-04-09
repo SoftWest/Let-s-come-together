@@ -20,6 +20,7 @@ public class WebApi
   public static final int ReadTimeout = 5 * 1000;
  
   public final static String WEB_HOST = "http://come2gether.softwest.net";
+  public final static String REQUEST = "/req";
   /** Default content type for calls. */
   public final static String CONTENT_TYPE_JSON = "application/json";
   // #endregion
@@ -29,7 +30,7 @@ public class WebApi
   public interface Methods
   {
     /** */
-    public final static String Facebook_Token = "/req/authappfb";
+    public final static String Facebook_Token = "/authappfb";
   }
   
   /** List of known query parameters for web methods. */

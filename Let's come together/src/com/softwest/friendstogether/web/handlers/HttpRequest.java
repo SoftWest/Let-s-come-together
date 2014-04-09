@@ -111,7 +111,7 @@ public class HttpRequest
         StrictMode.setThreadPolicy( policy );
         
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost( WebApi.WEB_HOST + mMethod );
+        HttpPost httppost = new HttpPost( WebApi.WEB_HOST + WebApi.REQUEST + mMethod );
         
         // no idea what this does :)
         httppost.setEntity( new UrlEncodedFormEntity( mValues ) );
