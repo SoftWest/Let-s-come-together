@@ -59,7 +59,7 @@ public class MapActivity
     CurrentUser user = app.getCurrentUser();
     mFacebookToken = user.facebookToken;
     
-    HttpMethods.sendFacebookToken( this, mFacebookToken, this,FacebookToken.class);
+    HttpMethods.sendFacebookToken( this, mFacebookToken, this, FacebookToken.class );
     
     // google service = true
     int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
@@ -181,20 +181,20 @@ public class MapActivity
   public Primary process( String json, final Object classInfo )
   {
     Log.i( "response", "response " + json );
-
-    String name = FacebookToken.class.getName();
     
-    if(classInfo.equals( name ) )
+    String name = FacebookToken.class.getName();
+    if( json.contains( "error" ) || json.contains( "exception" ) )
+    {
+      ComeTogetherEror error = Primary.fromJson( json, ComeTogetherEror.class );
+      
+      Toast.makeText( this, error.fbToken, Toast.LENGTH_LONG ).show();
+    }
+    else if( classInfo.equals( name ) )
     {
       FacebookToken user = Primary.fromJson( json, FacebookToken.class );
       
-    }else if( json.contains( "error" ) || json.contains("exception" ) )
-    {
-        ComeTogetherEror error = Primary.fromJson( json, ComeTogetherEror.class );
-      
-         Toast.makeText( this, error.fbToken, Toast.LENGTH_LONG ).show();
     }
-      return null;
+    return null;
   }
   
 }

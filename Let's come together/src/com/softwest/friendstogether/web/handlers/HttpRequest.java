@@ -17,9 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.requests.Parameters;
@@ -102,14 +100,12 @@ public class HttpRequest
     return mResponse;
   }
   
-  /**
-   * @param listener callBack for JSON
-   * @param classInfo class for parsing data from JSON
-   */
+  /** @param listener callBack for JSON
+   * @param classInfo class for parsing data from JSON */
   public void postRequst( IResponse listener, Class<? extends Primary> classInfo )
   {
     mHandlerResponse = listener;
-    
+    InputStreamReader is = null;
     if( android.os.Build.VERSION.SDK_INT > 9 )
     {
       try
@@ -127,7 +123,8 @@ public class HttpRequest
         // This is the line that send the request
         HttpResponse response = httpclient.execute( httppost );
         
-        BufferedReader reader = new BufferedReader( new InputStreamReader( response.getEntity().getContent(), "UTF-8" ) );
+        is = new InputStreamReader( response.getEntity().getContent(), "UTF-8" );
+        BufferedReader reader = new BufferedReader( is );
         String json = reader.readLine();
         
         if( null != mHandlerResponse )
@@ -139,6 +136,18 @@ public class HttpRequest
           mHandlerResponse.process( ignore.toString(), classInfo );
         
         Log.w( LetIsGoTogetherAPP.TAG, "exeption " + ignore );
+      }
+      finally
+      {
+        try
+        {
+          is.close();
+        }
+        catch( IOException e )
+        {
+         
+          Log.e( LetIsGoTogetherAPP.TAG, "exeption " + e );
+        }
       }
       
     }

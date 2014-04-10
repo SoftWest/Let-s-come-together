@@ -36,5 +36,12 @@
     <string name="login_program">Log in</string>
     <string name="login_facebook">Sig in with Facebook</string>
     <string name="login_twitter">Sig in with Twitter</string>
+    
+    <!--peson adapter  -->
+     <string name="tv_city">Луцьк</string>
+     <string name="tv_place">Resotoran</string>
+     <string name="person_name">John Miller</string>
+     <string name="last_time_check_in">5 min ago</string>
+     
 
 </resources>
