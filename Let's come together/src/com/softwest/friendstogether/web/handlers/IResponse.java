@@ -1,7 +1,5 @@
 package com.softwest.friendstogether.web.handlers;
 
-import org.apache.http.HttpResponse;
-
 import com.softwest.friendstogether.web.responses.Primary;
 
 
@@ -12,5 +10,5 @@ public interface IResponse
    * 
    * @param caller instance of caller
    */
-  public Primary process( final String json );
+  public Primary process( final String json,final Object classInfo );
 }

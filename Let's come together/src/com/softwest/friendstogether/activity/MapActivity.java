@@ -59,7 +59,7 @@ public class MapActivity
     CurrentUser user = app.getCurrentUser();
     mFacebookToken = user.facebookToken;
     
-    HttpMethods.sendFacebookToken( this, mFacebookToken, this );
+    HttpMethods.sendFacebookToken( this, mFacebookToken, this,FacebookToken.class);
     
     // google service = true
     int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
@@ -178,19 +178,21 @@ public class MapActivity
   }
   
   @Override
-  public Primary process( String json )
+  public Primary process( String json, final Object classInfo )
   {
     Log.i( "response", "response " + json );
+
+    String name = FacebookToken.class.getName();
     
-    if( json.contains( "error" ) || json.contains("exception" ) )
+    if(classInfo.equals( name ) )
+    {
+      FacebookToken user = Primary.fromJson( json, FacebookToken.class );
+      
+    }else if( json.contains( "error" ) || json.contains("exception" ) )
     {
         ComeTogetherEror error = Primary.fromJson( json, ComeTogetherEror.class );
       
          Toast.makeText( this, error.fbToken, Toast.LENGTH_LONG ).show();
-    }
-    else
-    {
-      FacebookToken user = Primary.fromJson( json, FacebookToken.class );
     }
       return null;
   }

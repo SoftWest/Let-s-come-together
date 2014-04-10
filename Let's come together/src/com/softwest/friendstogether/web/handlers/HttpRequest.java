@@ -17,12 +17,14 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.requests.Parameters;
 import com.softwest.friendstogether.web.responses.ComeTogetherEror;
+import com.softwest.friendstogether.web.responses.Primary;
 
 public class HttpRequest
 
@@ -100,9 +102,14 @@ public class HttpRequest
     return mResponse;
   }
   
-  public void postRequst( IResponse listener )
+  /**
+   * @param listener callBack for JSON
+   * @param classInfo class for parsing data from JSON
+   */
+  public void postRequst( IResponse listener, Class<? extends Primary> classInfo )
   {
     mHandlerResponse = listener;
+    
     if( android.os.Build.VERSION.SDK_INT > 9 )
     {
       try
@@ -124,22 +131,22 @@ public class HttpRequest
         String json = reader.readLine();
         
         if( null != mHandlerResponse )
-          mHandlerResponse.process( json );
-        
+          mHandlerResponse.process( json, classInfo.getName() );
       }
       catch( Throwable ignore )
       {
         if( null != mHandlerResponse )
-          mHandlerResponse.process( ignore.toString() );
+          mHandlerResponse.process( ignore.toString(), classInfo );
         
         Log.w( LetIsGoTogetherAPP.TAG, "exeption " + ignore );
       }
       
     }
   }
-  public ComeTogetherEror getRerror(final String root) throws IOException
+  
+  public ComeTogetherEror getRerror( final String root ) throws IOException
   {
-   
+    
     return null;
   }
 }
