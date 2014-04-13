@@ -33,10 +33,12 @@ import com.softwest.friendstogether.utils.UserLocation;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.handlers.HttpMethods;
 import com.softwest.friendstogether.web.handlers.IResponse;
+import com.softwest.friendstogether.web.responses.CheckIn;
 import com.softwest.friendstogether.web.responses.ComeTogetherEror;
 import com.softwest.friendstogether.web.responses.CurrentUser;
 import com.softwest.friendstogether.web.responses.FacebookToken;
 import com.softwest.friendstogether.web.responses.PeopleNearMe;
+import com.softwest.friendstogether.web.responses.PlacesNiarMe;
 import com.softwest.friendstogether.web.responses.Primary;
 import com.softwest.friendstogether.web.responses.list.POI;
 
@@ -55,6 +57,7 @@ public class MapActivity
   private float mZoom;
   private Bitmap mFacebookIcon;
   private String mServerToken;
+  private int mCheckInId;
   
   public static final String[] titles = new String[]{ "Strawberry", "Banana", "Orange", "Mixed" };
   
@@ -145,6 +148,9 @@ public class MapActivity
     HttpMethods.peopleNearMe( this, mLatitude, mLongitude, WebApi.getServerToken(), this, PeopleNearMe.class );
     
     HttpMethods.getPlaceNiarMe( this, mLatitude, mLongitude, mZoom, WebApi.getServerToken(), this, POI.class );
+    
+    HttpMethods.checkIn( this, mCheckInId, WebApi.getServerToken(), this, CheckIn.class );
+    
   }
 
   private void extractFacebookIcon()
@@ -246,6 +252,9 @@ public class MapActivity
     String peopleNearMe = FacebookToken.class.getName();
     
     String poi = POI.class.getName();
+    
+    String checkIn = CheckIn.class.getName();
+    
     if( json.contains( "error" ) || json.contains( "exception" ) )
     {
       ComeTogetherEror error = Primary.fromJson( json, ComeTogetherEror.class );
@@ -266,9 +275,13 @@ public class MapActivity
     else if( classInfo.equals( poi ) )
     {
       POI places = Primary.fromJson( json, POI.class );
+      mCheckInId = ((PlacesNiarMe)places.result).poi_id;
+    }
+    else if( classInfo.equals( checkIn ) )
+    {
+      CheckIn check = Primary.fromJson( json, CheckIn.class );
     
     }
-    
   }
   
   @Override

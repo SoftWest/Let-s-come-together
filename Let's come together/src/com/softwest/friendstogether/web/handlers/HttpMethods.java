@@ -47,4 +47,17 @@ public final class HttpMethods
     
     return request;
   }
+  
+  public static HttpRequest checkIn( final Context context, int checkIn,
+      String serverToken, IResponse listener, Class<? extends Primary> classInfo )
+  {
+    HttpRequest request = new HttpRequest( context, WebApi.Methods.Get_Poi );
+    
+    request.addParameter( WebApi.Query.PLACE_LATITUDE_POI, String.valueOf( checkIn ) );
+    request.addParameter( WebApi.Query.SERVER_TOKEN, serverToken );
+    
+    request.postRequst( listener, classInfo );
+    
+    return request;
+  }
 }

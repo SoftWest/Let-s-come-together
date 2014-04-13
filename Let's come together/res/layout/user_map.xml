@@ -3,7 +3,8 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:weightSum="1" >
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adMob"
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-9306584564639064/4883640238" >
+
     </com.google.android.gms.ads.AdView>
 
     <fragment
@@ -20,17 +22,26 @@
         android:layout_weight="0.7"
         class="com.google.android.gms.maps.SupportMapFragment" />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/fg_person"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/edge_large"
+        android:layout_height="@dimen/edge_huge"
         android:layout_weight="0.3" >
+
+        <ImageView
+            android:id="@+id/iv_chack_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/edge_normal"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_email_icon" />
 
         <ListView
             android:id="@+id/list_persons"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </ListView>
-    </FrameLayout>
+    </RelativeLayout>
 
 </LinearLayout>

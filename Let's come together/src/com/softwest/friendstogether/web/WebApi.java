@@ -61,6 +61,8 @@ public class WebApi
     public final static String People_Near_Me = "/getpeopleplaces";
     /** */
     public final static String Get_Poi = "/getpoi";
+    /** */
+    public final static String Check_In = "/checkin";
    
   }
   
@@ -80,6 +82,8 @@ public class WebApi
     public final static String SERVER_TOKEN = "sever_id";
   
     public final static String MAP_ZOOM = "map_zoom";
+    
+    public final static String POI_ID = "poi_id";
   }
   // #endregion
   /** read input stream into string.
