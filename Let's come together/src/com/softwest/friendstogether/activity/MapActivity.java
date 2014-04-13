@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -36,11 +37,9 @@ import com.softwest.friendstogether.web.responses.ComeTogetherEror;
 import com.softwest.friendstogether.web.responses.CurrentUser;
 import com.softwest.friendstogether.web.responses.FacebookToken;
 import com.softwest.friendstogether.web.responses.PeopleNearMe;
-import com.softwest.friendstogether.web.responses.PlacesNiarMe;
 import com.softwest.friendstogether.web.responses.Primary;
 import com.softwest.friendstogether.web.responses.list.POI;
 
-@SuppressLint( "NewApi" )
 public class MapActivity
   extends BaseActivity
   implements IResponse, OnInfoWindowClickListener
@@ -54,7 +53,7 @@ public class MapActivity
   private double mLongitude;
   private Dialog mDialog;
   private float mZoom;
-  
+  private Bitmap mFacebookIcon;
   private String mServerToken;
   
   public static final String[] titles = new String[]{ "Strawberry", "Banana", "Orange", "Mixed" };
@@ -81,15 +80,15 @@ public class MapActivity
     LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
     
     final CurrentUser user = app.getCurrentUser();
-   
-    if (android.os.Build.VERSION.SDK_INT > 9) {
-      StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-      StrictMode.setThreadPolicy(policy);
- 
-     // userPicture = getUserPic(String.valueOf( user.id ));
-    }
-  
-    mFacebookToken = user.facebookToken;
+    
+//     DownloadPicturesTask uploadTask = new DownloadPicturesTask();
+//     uploadTask.execute( String.valueOf( user.id ) );
+    
+     if( android.os.Build.VERSION.SDK_INT > 9 )
+     {
+       extractFacebookIcon();
+     }
+     mFacebookToken = user.facebookToken;
     
     HttpMethods.sendFacebookToken( this, mFacebookToken, this, FacebookToken.class );
     
@@ -131,9 +130,9 @@ public class MapActivity
     MarkerOptions marker1 = new MarkerOptions();
     
     marker1.position( latitude );
-    marker1.title( "User Name" );
-    marker1.snippet( "my friend" );
-    marker1.icon( BitmapDescriptorFactory.fromBitmap( userPicture ) );
+    marker1.title( user.username );
+    //marker1.snippet( "my friend" );
+    marker1.icon( BitmapDescriptorFactory.fromBitmap( mFacebookIcon ) );
     
     mGMap.addMarker( marker1 );
     
@@ -147,16 +146,30 @@ public class MapActivity
     
     HttpMethods.getPlaceNiarMe( this, mLatitude, mLongitude, mZoom, WebApi.getServerToken(), this, POI.class );
   }
+
+  private void extractFacebookIcon()
+  {
+    Bitmap bitmap = null;
+     
+     InputStream in = null;
+     try
+     {
+       StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+       StrictMode.setThreadPolicy( policy );
+       
+       URL imageURL = new URL("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/c0.0.1.00.1.00/p100x100/969878_592016040843290_1511913922_t.jpg");
+       
+       in = ( InputStream) imageURL.getContent();
+       
+       bitmap = BitmapFactory.decodeStream( in );
+       mFacebookIcon = bitmap;
+     }
+     catch(Throwable e)
+     {
+       
+     }
+  }
   
-  /**
-   * @param userID user facebook id
-   * @return
-   */
-//  private Bitmap getUserPic(String userID) {
-//   
-//    return bitmap;
-// 
-//}
   // ---------------------AdMob-----------------------------
   @Override
   public void onResume()
@@ -186,13 +199,11 @@ public class MapActivity
   public void onDestroy()
   {
     if( mAdView != null )
-    {
-      // Destroy the AdView.
       mAdView.destroy();
-    }
+    
     super.onDestroy();
   }
-  
+ 
   /** Gets a string error reason from an error code. */
   @SuppressWarnings( "unused" )
   private String getErrorReason( int errorCode )
@@ -217,7 +228,7 @@ public class MapActivity
   }
   
   // ---------------------AdMob-----------------------------
-
+  
   @Override
   public Primary process( String json, final Object classInfo )
   {
@@ -250,10 +261,12 @@ public class MapActivity
     else if( classInfo.equals( peopleNearMe ) )
     {
       PeopleNearMe people = Primary.fromJson( json, PeopleNearMe.class );
+
     }
-    else if(classInfo.equals( poi ))
+    else if( classInfo.equals( poi ) )
     {
       POI places = Primary.fromJson( json, POI.class );
+    
     }
     
   }

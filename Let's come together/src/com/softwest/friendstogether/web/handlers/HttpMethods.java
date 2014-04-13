@@ -24,8 +24,8 @@ public final class HttpMethods
   {
     HttpRequest request = new HttpRequest( context, WebApi.Methods.People_Near_Me );
     
-    request.addParameter( WebApi.Query.PLACE_LATITUDE, String.valueOf( latitude ) );
-    request.addParameter( WebApi.Query.PLACE_LONGTITUDE, String.valueOf( longitude ) );
+    request.addParameter( WebApi.Query.PLACE_LATITUDE_PLACE, /*String.valueOf( latitude )*/"50.4716403" );
+    request.addParameter( WebApi.Query.PLACE_LONGTITUDE_PLACE, /*String.valueOf( longitude )*/"30.5181315" );
     request.addParameter( WebApi.Query.SERVER_TOKEN, serverToken );
     
     request.postRequst( listener, classInfo );
@@ -38,8 +38,8 @@ public final class HttpMethods
   {
     HttpRequest request = new HttpRequest( context, WebApi.Methods.Get_Poi );
     
-    request.addParameter( WebApi.Query.PLACE_LATITUDE, String.valueOf( latitude ) );
-    request.addParameter( WebApi.Query.PLACE_LONGTITUDE, String.valueOf( longitude ) );
+    request.addParameter( WebApi.Query.PLACE_LATITUDE_POI, String.valueOf( latitude ) );
+    request.addParameter( WebApi.Query.PLACE_LONGTITUDE_POI, String.valueOf( longitude ) );
     request.addParameter( WebApi.Query.MAP_ZOOM, String.valueOf( zoom ) );
     request.addParameter( WebApi.Query.SERVER_TOKEN, serverToken );
     

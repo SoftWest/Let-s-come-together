@@ -31,7 +31,7 @@ public class LoginFacebookActivity
   implements StatusCallback, GraphUserCallback
 
 {
- // Instance of Facebook Class
+  // Instance of Facebook Class
   String FILENAME = "AndroidSSO_data";
   private static SharedPreferences mPrefs;
   private static Activity mActivity;
@@ -87,7 +87,7 @@ public class LoginFacebookActivity
     super.onActivityResult( requestCode, resultCode, data );
     Session.getActiveSession().onActivityResult( mActivity, requestCode, resultCode, data );
   }
-  
+
   @Override
   public void call( Session session, SessionState state, Exception exception )
   {
@@ -100,9 +100,9 @@ public class LoginFacebookActivity
   {
     if( null != user )
     {
-      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences( mActivity );
       SharedPreferences.Editor editor = preferences.edit();
-      editor.putString("access_token",getFacebookToken());
+      editor.putString( "access_token", getFacebookToken() );
       editor.commit();
       
       GraphObject object = user;

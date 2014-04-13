@@ -61,6 +61,7 @@ public class PersonAdapter
     TextView place = (TextView)view.findViewById( R.id.tv_place );
     TextView city = (TextView)view.findViewById( R.id.tv_city );
     TextView signIn = (TextView)view.findViewById( R.id.tv_sign_in );
+    
     view.setTag( holder );
     }else
     {

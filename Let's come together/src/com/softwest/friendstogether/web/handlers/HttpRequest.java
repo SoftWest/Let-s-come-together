@@ -2,6 +2,7 @@ package com.softwest.friendstogether.web.handlers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
 import android.os.StrictMode;
@@ -121,9 +123,22 @@ public class HttpRequest
         
         Log.d( "uri", "uri " + httppost.getURI() );
         // This is the line that send the request
+      
         HttpResponse response = httpclient.execute( httppost );
-        
+       
         is = new InputStreamReader( response.getEntity().getContent(), "UTF-8" );
+        
+        
+//        String output = WebApi.readUTF8( is );
+//        
+//        Log.w( LetIsGoTogetherAPP.TAG, "The Begining." );
+//       
+//        
+//        for( String line : split( output, 1024 ) )
+//        Log.i( LetIsGoTogetherAPP.TAG, "Response: " + line );
+//        
+//        Log.w( LetIsGoTogetherAPP.TAG, "The End." );
+        
         BufferedReader reader = new BufferedReader( is );
         String json = reader.readLine();
         
@@ -135,7 +150,7 @@ public class HttpRequest
         if( null != mHandlerResponse )
           mHandlerResponse.process( ignore.toString(), classInfo );
         
-        Log.w( LetIsGoTogetherAPP.TAG, "exeption " + ignore );
+        Log.w( LetIsGoTogetherAPP.TAG, "exception " + ignore );
       }
       finally
       {
@@ -146,13 +161,44 @@ public class HttpRequest
         catch( IOException e )
         {
          
-          Log.e( LetIsGoTogetherAPP.TAG, "exeption " + e );
+          Log.e( LetIsGoTogetherAPP.TAG, "exception " + e );
         }
       }
       
     }
   }
   
+  public static List<String> split( final String text, final int sliceSize )
+  {
+    final List<String> textList = new ArrayList<String>();
+    
+    String aux;
+    int left = -1, right = 0;
+    int charsLeft = text.length();
+    
+    while( charsLeft != 0 )
+    {
+      left = right;
+      
+      if( charsLeft >= sliceSize )
+      {
+        right += sliceSize;
+        charsLeft -= sliceSize;
+      }
+      else
+      {
+        right = text.length();
+        aux = text.substring( left, right );
+        charsLeft = 0;
+      }
+      
+      aux = text.substring( left, right );
+      textList.add( aux );
+    }
+    
+    return textList;
+  }
+
   public ComeTogetherEror getRerror( final String root ) throws IOException
   {
     

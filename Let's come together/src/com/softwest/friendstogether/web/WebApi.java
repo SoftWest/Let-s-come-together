@@ -1,5 +1,10 @@
 package com.softwest.friendstogether.web;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 
  
@@ -63,15 +68,40 @@ public class WebApi
   public interface Query
   {
     public final static String TOKEN = "user_fb_token";
-    
-    public final static String PLACE_LATITUDE = "place_latitude";
+   
+    public final static String PLACE_LATITUDE_PLACE = "place_latitude";
   
-    public final static String PLACE_LONGTITUDE = "place_longtitude";
+    public final static String PLACE_LONGTITUDE_PLACE = "place_longtitude";
     
-    public final static String SERVER_TOKEN = "sever_token";
+    public final static String PLACE_LATITUDE_POI = "poi_latitude";
+  
+    public final static String PLACE_LONGTITUDE_POI = "poi_longtitude";
     
+    public final static String SERVER_TOKEN = "sever_id";
+  
     public final static String MAP_ZOOM = "map_zoom";
   }
   // #endregion
- 
+  /** read input stream into string.
+   * 
+   * @param stream input stream
+   * @return extracted text */
+  public static String readUTF8( InputStreamReader reader ) throws IOException
+  {
+   // final InputStreamReader reader = new InputStreamReader( stream, UTF8 );
+    StringWriter writer = new StringWriter();
+    
+    int len = 0;
+    char[] buffer = new char[ 2048 ];
+    
+    while( ( len = reader.read( buffer ) ) > 0 )
+    {
+      writer.write( buffer, 0, len );
+    }
+    
+    // close reader after all
+    reader.close();
+    
+    return writer.toString();
+  }
 }

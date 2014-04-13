@@ -12,7 +12,7 @@ public class PlacesNiarMe
   public double poi_longtitude;
   
   public String poi_name;
-  public String poi_adress;
+  public String poi_address;
   
   public String poi_phone;
   public Object poi_contact_details;
