@@ -4,6 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.StrictMode;
+import android.util.Log;
 
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 
@@ -107,5 +114,63 @@ public class WebApi
     reader.close();
     
     return writer.toString();
+  }
+  
+  /**
+   * @param redirect URI from server
+   * @return image Bitmap
+   */
+  public static Bitmap getFacebookIcon( String uri )
+  {
+    Bitmap bitmap = null;
+    
+    InputStream in = null;
+    try
+    {
+      StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+      StrictMode.setThreadPolicy( policy );
+     
+      URL imageURL = new URL( uri );
+      in = ( InputStream )imageURL.getContent();
+      
+      bitmap = BitmapFactory.decodeStream( in );
+    }
+    catch( Throwable e )
+    {
+      Log.w( LetIsGoTogetherAPP.TAG, e.toString() );
+    }
+    return bitmap;
+  }
+  
+  /**
+   * @param id facebook user id
+   * @return new redirect URI
+   */
+  public static String getRedirectUri( String id )
+  {
+    String newUrl = null;
+    try
+    {
+      boolean redirect = false;
+      
+      String url = "http://graph.facebook.com/" + id + "/picture";
+      URL obj = new URL( url );
+      HttpURLConnection conn = ( HttpURLConnection )obj.openConnection();
+      conn.setReadTimeout( 5000 );
+      
+      int status = conn.getResponseCode();
+      
+      if( status != HttpURLConnection.HTTP_OK )
+          redirect = true;
+      
+      if( redirect )
+        newUrl = conn.getHeaderField( "Location" );
+     
+    }
+    catch( Exception e )
+    {
+      Log.w( LetIsGoTogetherAPP.TAG, e.toString() );
+    }
+    return newUrl;
   }
 }
