@@ -15,7 +15,7 @@ public class MainActivity
   {
     super.onCreate( savedInstanceState );
     
-    setContentView( R.layout.activity_base );
+    setContentView( R.layout.act_base );
     
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     

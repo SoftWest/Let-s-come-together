@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_main_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1" >
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adMob"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-9306584564639064/4883640238" >
+        </com.google.android.gms.ads.AdView>
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+
+        <RelativeLayout
+            android:id="@+id/fl_person"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3" >
+
+            <View
+                android:id="@+id/view_first"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edge_normal"
+                android:background="@color/color_gray" />
+
+            <View
+                android:id="@+id/view_second"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edge_normal"
+                android:layout_alignLeft="@+id/iv_check_in"
+                android:layout_alignRight="@+id/iv_check_in"
+                android:layout_below="@+id/view_first"
+                android:layout_marginLeft="@dimen/edge_large"
+                android:layout_marginRight="@dimen/edge_large"
+                android:background="@color/color_orange" />
+
+            <ImageView
+                android:id="@+id/iv_check_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/edge_normal"
+                android:contentDescription="TODO"
+                android:src="@drawable/bt_selector_check_in"
+                tools:ignore="ContentDescription,HardcodedText" />
+
+            <ListView
+                android:id="@+id/list_persons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>

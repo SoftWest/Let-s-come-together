@@ -1,25 +1,15 @@
 package com.softwest.friendstogether.activity;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpHead;
-
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.friendstogether.activity.R;
@@ -37,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
-import com.softwest.friendstogether.fragment.PersonsFragment;
+import com.softwest.friendstogether.fragment.ListPersonsFragment;
 import com.softwest.friendstogether.utils.UserLocation;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.handlers.HttpMethods;
@@ -53,10 +43,10 @@ import com.softwest.friendstogether.web.responses.list.POI;
 
 public class MapActivity
   extends BaseActivity
-  implements IResponse, OnInfoWindowClickListener
+  implements IResponse, OnInfoWindowClickListener, OnClickListener
 {
   private String mFacebookToken;
-  
+  public final static String LIST_PERSON = "list-person";
   private GoogleMap mGMap;
   private UserLocation mGps;
   private AdView mAdView;
@@ -68,25 +58,27 @@ public class MapActivity
   private String mServerToken;
   private int mCheckInId;
   
-  public static final String[] titles = new String[]{ "Strawberry", "Banana", "Orange", "Mixed" };
-  
-  public static final String[] descriptions = new String[]{ "It is an aggregate accessory fruit",
-      "It is the largest herbaceous flowering plant", "Citrus Fruit", "Mixed Fruits" };
-  
-  public static final Integer[] images = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
-      R.drawable.ic_launcher };
+  private ImageView mImageCheckIn;
   
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.user_map );
-    Bitmap userPicture = null;
+    setContentView( R.layout.act_map );
     
     // adMob
     AdView adView = ( AdView )this.findViewById( R.id.adMob );
     AdRequest adRequest = new AdRequest.Builder().build();
     adView.loadAd( adRequest );
+    
+    mImageCheckIn = ( ImageView )findViewById( R.id.iv_check_in );
+    mImageCheckIn.setOnClickListener( this );
+    
+    View v = (View)findViewById( R.id.view_first );
+    View v1 = (View)findViewById( R.id.view_second );
+    
+    v.setOnClickListener( this );
+    v1.setOnClickListener( this );
     
     // get information about current user
     LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
@@ -100,8 +92,8 @@ public class MapActivity
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy( policy );
         
-       String newUri = WebApi.getRedirectUri( String.valueOf( user.id ) );
-       mFacebookIcon = WebApi.getFacebookIcon( newUri );
+        String newUri = WebApi.getRedirectUri( String.valueOf( user.id ) );
+        mFacebookIcon = WebApi.getFacebookIcon( newUri );
       }
       catch( Throwable e )
       {
@@ -112,8 +104,6 @@ public class MapActivity
     mFacebookToken = user.facebookToken;
     
     HttpMethods.sendFacebookToken( this, mFacebookToken, this, FacebookToken.class );
-    
-    PersonsFragment persons = new PersonsFragment();
     
     // google service = true
     int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
@@ -235,12 +225,12 @@ public class MapActivity
   {
     Log.i( "response", "response " + json );
     
-    parseResonse( json, classInfo );
+    parseResponse( json, classInfo );
     
     return null;
   }
   
-  private void parseResonse( String json, Object classInfo )
+  private void parseResponse( String json, Object classInfo )
   {
     String facebook = FacebookToken.class.getName();
     
@@ -275,7 +265,6 @@ public class MapActivity
     else if( classInfo.equals( checkIn ) )
     {
       CheckIn check = Primary.fromJson( json, CheckIn.class );
-      
     }
   }
   
@@ -290,6 +279,31 @@ public class MapActivity
   public void onBackPressed()
   {
     // nothing to do
+  }
+  
+  @Override
+  public void onClick( View v )
+  {
+    switch( v.getId() )
+    {
+      case R.id.iv_check_in:
+        Log.i( "check in click", "checkIn click" );
+        break;
+      case R.id.view_first:
+      case R.id.view_second:
+        LinearLayout layout = (LinearLayout)findViewById( R.id.ll_main );
+        layout.setVisibility( View.GONE );
+        
+        ListPersonsFragment listPerson = new ListPersonsFragment();
+        
+        FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
+        
+        tr.replace( R.id.fl_main_map, listPerson );
+        tr.addToBackStack( LIST_PERSON );
+        tr.commit();
+        
+        break;
+    }
   }
   
 }
