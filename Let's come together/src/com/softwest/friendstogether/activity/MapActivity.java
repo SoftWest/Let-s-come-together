@@ -1,7 +1,16 @@
 package com.softwest.friendstogether.activity;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpHead;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -84,14 +93,23 @@ public class MapActivity
     
     final CurrentUser user = app.getCurrentUser();
     
-//     DownloadPicturesTask uploadTask = new DownloadPicturesTask();
-//     uploadTask.execute( String.valueOf( user.id ) );
+    if( android.os.Build.VERSION.SDK_INT > 9 )
+    {
+      try
+      {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy( policy );
+        
+       String newUri = WebApi.getRedirectUri( String.valueOf( user.id ) );
+       mFacebookIcon = WebApi.getFacebookIcon( newUri );
+      }
+      catch( Throwable e )
+      {
+        Log.w( LetIsGoTogetherAPP.TAG, e.toString() );
+      }
+    }
     
-     if( android.os.Build.VERSION.SDK_INT > 9 )
-     {
-       extractFacebookIcon();
-     }
-     mFacebookToken = user.facebookToken;
+    mFacebookToken = user.facebookToken;
     
     HttpMethods.sendFacebookToken( this, mFacebookToken, this, FacebookToken.class );
     
@@ -134,7 +152,7 @@ public class MapActivity
     
     marker1.position( latitude );
     marker1.title( user.username );
-    //marker1.snippet( "my friend" );
+    // marker1.snippet( "my friend" );
     marker1.icon( BitmapDescriptorFactory.fromBitmap( mFacebookIcon ) );
     
     mGMap.addMarker( marker1 );
@@ -151,29 +169,6 @@ public class MapActivity
     
     HttpMethods.checkIn( this, mCheckInId, WebApi.getServerToken(), this, CheckIn.class );
     
-  }
-
-  private void extractFacebookIcon()
-  {
-    Bitmap bitmap = null;
-     
-     InputStream in = null;
-     try
-     {
-       StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-       StrictMode.setThreadPolicy( policy );
-       
-       URL imageURL = new URL("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/c0.0.1.00.1.00/p100x100/969878_592016040843290_1511913922_t.jpg");
-       
-       in = ( InputStream) imageURL.getContent();
-       
-       bitmap = BitmapFactory.decodeStream( in );
-       mFacebookIcon = bitmap;
-     }
-     catch(Throwable e)
-     {
-       
-     }
   }
   
   // ---------------------AdMob-----------------------------
@@ -209,7 +204,7 @@ public class MapActivity
     
     super.onDestroy();
   }
- 
+  
   /** Gets a string error reason from an error code. */
   @SuppressWarnings( "unused" )
   private String getErrorReason( int errorCode )
@@ -270,17 +265,17 @@ public class MapActivity
     else if( classInfo.equals( peopleNearMe ) )
     {
       PeopleNearMe people = Primary.fromJson( json, PeopleNearMe.class );
-
+      
     }
     else if( classInfo.equals( poi ) )
     {
       POI places = Primary.fromJson( json, POI.class );
-      mCheckInId = ((PlacesNiarMe)places.result).poi_id;
+      mCheckInId = ( ( PlacesNiarMe )places.result ).poi_id;
     }
     else if( classInfo.equals( checkIn ) )
     {
       CheckIn check = Primary.fromJson( json, CheckIn.class );
-    
+      
     }
   }
   
