@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.friendstogether.activity.R;
-
 public class MainActivity
   extends BaseActivity
 {

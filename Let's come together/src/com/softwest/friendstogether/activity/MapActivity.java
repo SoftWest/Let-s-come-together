@@ -1,5 +1,8 @@
 package com.softwest.friendstogether.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,9 +13,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.friendstogether.activity.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
+import com.softwest.friendstogether.adapters.PersonAdapter;
 import com.softwest.friendstogether.fragment.ListPersonsFragment;
 import com.softwest.friendstogether.utils.UserLocation;
 import com.softwest.friendstogether.web.WebApi;
@@ -39,6 +43,7 @@ import com.softwest.friendstogether.web.responses.FacebookToken;
 import com.softwest.friendstogether.web.responses.PeopleNearMe;
 import com.softwest.friendstogether.web.responses.PlacesNiarMe;
 import com.softwest.friendstogether.web.responses.Primary;
+import com.softwest.friendstogether.web.responses.list.ListPeople;
 import com.softwest.friendstogether.web.responses.list.POI;
 
 public class MapActivity
@@ -53,12 +58,13 @@ public class MapActivity
   private double mLatitude;
   private double mLongitude;
   private Dialog mDialog;
-  private float mZoom;
+  private int mZoom;
   private Bitmap mFacebookIcon;
   private String mServerToken;
   private int mCheckInId;
-  
+  private ListView mListPersons;
   private ImageView mImageCheckIn;
+  private List<PeopleNearMe> mPeopleList= new ArrayList<PeopleNearMe>();
   
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -74,6 +80,9 @@ public class MapActivity
     mImageCheckIn = ( ImageView )findViewById( R.id.iv_check_in );
     mImageCheckIn.setOnClickListener( this );
     
+   
+    mListPersons = (ListView)findViewById( R.id.list_persons );
+    
     View v = (View)findViewById( R.id.view_first );
     View v1 = (View)findViewById( R.id.view_second );
     
@@ -81,8 +90,81 @@ public class MapActivity
     v1.setOnClickListener( this );
     
     // get information about current user
-    LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
+    final CurrentUser user = ecstractUserPicture( );
     
+    mFacebookToken = user.facebookToken;
+    
+    HttpMethods.sendFacebookToken( this, mFacebookToken, this, FacebookToken.class );
+    
+    // google service = true
+    settingMap( user );
+    
+    // get people near me
+    String token = WebApi.getServerToken();
+    
+    HttpMethods.getPlaceNiarMe( this, mLatitude, mLongitude, mZoom, token, this, POI.class );
+    
+    HttpMethods.peopleNearMe( this, mLatitude, mLongitude, token, this, ListPeople.class );
+  
+  }
+
+  private void settingMap( final CurrentUser user )
+  {
+    int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
+    if( status != ConnectionResult.SUCCESS )
+    {
+      int requestCode = 10;
+      mDialog = GooglePlayServicesUtil.getErrorDialog( status, this, requestCode );
+      mDialog.show();
+    }
+    else
+    {
+      // map fragment
+      SupportMapFragment fmap = ( SupportMapFragment )getSupportFragmentManager().findFragmentById( R.id.map );
+      mGMap = fmap.getMap();
+    }
+    // click icon
+    mGMap.setOnInfoWindowClickListener( this );
+    
+    mGps = new UserLocation( MapActivity.this );
+    // get current user location
+    mGMap.setMyLocationEnabled( true );
+    
+    mZoom = ( int )mGMap.getCameraPosition().zoom;
+    
+    if( mGps.canGetLocation() )
+    {
+      mLatitude = mGps.getLatitude();
+      mLongitude = mGps.getLongitude();
+    }
+    // marker add
+    CameraPosition cameraPosition = markIcon( user );
+    
+    mGMap.animateCamera( CameraUpdateFactory.newCameraPosition( cameraPosition ) );
+  }
+
+  private CameraPosition markIcon( final CurrentUser user )
+  {
+    LatLng latitude = new LatLng( mLatitude, mLongitude );
+    
+    MarkerOptions marker1 = new MarkerOptions();
+    
+    marker1.position( latitude );
+    marker1.title( user.username );
+    // marker1.snippet( "my friend" );
+    marker1.icon( BitmapDescriptorFactory.fromBitmap( mFacebookIcon ) );
+    
+    mGMap.addMarker( marker1 );
+    
+    // camera map
+    CameraPosition cameraPosition = new CameraPosition.Builder().target( latitude ).zoom( 12 ).build();
+    return cameraPosition;
+  }
+
+  private CurrentUser ecstractUserPicture(  )
+  { 
+    LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
+  
     final CurrentUser user = app.getCurrentUser();
     
     if( android.os.Build.VERSION.SDK_INT > 9 )
@@ -100,65 +182,7 @@ public class MapActivity
         Log.w( LetIsGoTogetherAPP.TAG, e.toString() );
       }
     }
-    
-    mFacebookToken = user.facebookToken;
-    
-    HttpMethods.sendFacebookToken( this, mFacebookToken, this, FacebookToken.class );
-    
-    // google service = true
-    int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
-    if( status != ConnectionResult.SUCCESS )
-    {
-      int requestCode = 10;
-      mDialog = GooglePlayServicesUtil.getErrorDialog( status, this, requestCode );
-      mDialog.show();
-      
-    }
-    else
-    {
-      // map fragment
-      SupportMapFragment fmap = ( SupportMapFragment )getSupportFragmentManager().findFragmentById( R.id.map );
-      mGMap = fmap.getMap();
-      
-    }
-    // click icon
-    mGMap.setOnInfoWindowClickListener( this );
-    
-    mGps = new UserLocation( MapActivity.this );
-    // get current user location
-    mGMap.setMyLocationEnabled( true );
-    
-    mZoom = mGMap.getCameraPosition().zoom;
-    
-    if( mGps.canGetLocation() )
-    {
-      mLatitude = mGps.getLatitude();
-      mLongitude = mGps.getLongitude();
-    }
-    // marker add
-    LatLng latitude = new LatLng( mLatitude, mLongitude );
-    
-    MarkerOptions marker1 = new MarkerOptions();
-    
-    marker1.position( latitude );
-    marker1.title( user.username );
-    // marker1.snippet( "my friend" );
-    marker1.icon( BitmapDescriptorFactory.fromBitmap( mFacebookIcon ) );
-    
-    mGMap.addMarker( marker1 );
-    
-    // camera map
-    CameraPosition cameraPosition = new CameraPosition.Builder().target( latitude ).zoom( 12 ).build();
-    
-    mGMap.animateCamera( CameraUpdateFactory.newCameraPosition( cameraPosition ) );
-    
-    // get people near me
-    HttpMethods.peopleNearMe( this, mLatitude, mLongitude, WebApi.getServerToken(), this, PeopleNearMe.class );
-    
-    HttpMethods.getPlaceNiarMe( this, mLatitude, mLongitude, mZoom, WebApi.getServerToken(), this, POI.class );
-    
-    HttpMethods.checkIn( this, mCheckInId, WebApi.getServerToken(), this, CheckIn.class );
-    
+    return user;
   }
   
   // ---------------------AdMob-----------------------------
@@ -234,7 +258,7 @@ public class MapActivity
   {
     String facebook = FacebookToken.class.getName();
     
-    String peopleNearMe = FacebookToken.class.getName();
+    String peopleNearMe = ListPeople.class.getName();
     
     String poi = POI.class.getName();
     
@@ -243,8 +267,7 @@ public class MapActivity
     if( json.contains( "error" ) || json.contains( "exception" ) )
     {
       ComeTogetherEror error = Primary.fromJson( json, ComeTogetherEror.class );
-      
-      Toast.makeText( this, error.fbToken, Toast.LENGTH_LONG ).show();
+
     }
     else if( classInfo.equals( facebook ) )
     {
@@ -254,8 +277,12 @@ public class MapActivity
     }
     else if( classInfo.equals( peopleNearMe ) )
     {
-      PeopleNearMe people = Primary.fromJson( json, PeopleNearMe.class );
+      ListPeople peopleList = Primary.fromJson( json, ListPeople.class );
       
+      mPeopleList = peopleList.result;
+      
+      PersonAdapter adapter = new PersonAdapter( this, mPeopleList );
+      mListPersons.setAdapter( adapter );
     }
     else if( classInfo.equals( poi ) )
     {
@@ -287,14 +314,16 @@ public class MapActivity
     switch( v.getId() )
     {
       case R.id.iv_check_in:
-        Log.i( "check in click", "checkIn click" );
+     
+        HttpMethods.checkIn( this, mCheckInId, WebApi.getServerToken(), this, CheckIn.class );
+       
         break;
       case R.id.view_first:
       case R.id.view_second:
         LinearLayout layout = (LinearLayout)findViewById( R.id.ll_main );
         layout.setVisibility( View.GONE );
         
-        ListPersonsFragment listPerson = new ListPersonsFragment();
+        ListPersonsFragment listPerson = new ListPersonsFragment( mPeopleList);
         
         FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
         

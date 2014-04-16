@@ -1,9 +1,6 @@
 package com.softwest.friendstogether.web.responses;
 
-import com.softwest.friendstogether.web.responses.wrappers.ResponseBody;
-
 public class PlacesNiarMe
-  extends ResponseBody
 {
   public int poi_id;
   public long poi_bid;

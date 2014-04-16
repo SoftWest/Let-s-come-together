@@ -127,13 +127,9 @@ public class HttpRequest
         HttpResponse response = httpclient.execute( httppost );
        
         is = new InputStreamReader( response.getEntity().getContent(), "UTF-8" );
-        
-        
+       
 //        String output = WebApi.readUTF8( is );
-//        
 //        Log.w( LetIsGoTogetherAPP.TAG, "The Begining." );
-//       
-//        
 //        for( String line : split( output, 1024 ) )
 //        Log.i( LetIsGoTogetherAPP.TAG, "Response: " + line );
 //        

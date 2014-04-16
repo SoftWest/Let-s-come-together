@@ -12,6 +12,8 @@ public class LetIsGoTogetherAPP
   
   /** info about current user */
   private CurrentUser mCurrentUser;
+  private int counter;
+  
   /** server identificator */
   private String mServerToken;
   
@@ -41,6 +43,16 @@ public class LetIsGoTogetherAPP
   public CurrentUser getCurrentUser()
   {
     return mCurrentUser;
+  }
+
+  public int getCounter()
+  {
+    return counter;
+  }
+
+  public void setCounter( int counter )
+  {
+    this.counter = counter;
   }
   
 }

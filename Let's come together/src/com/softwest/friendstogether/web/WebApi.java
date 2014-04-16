@@ -86,9 +86,9 @@ public class WebApi
   
     public final static String PLACE_LONGTITUDE_POI = "poi_longtitude";
     
-    public final static String SERVER_TOKEN = "sever_id";
+    public final static String SERVER_TOKEN = "server_id";
   
-    public final static String MAP_ZOOM = "map_zoom";
+    public final static String ZOOM = "zoom";
     
     public final static String POI_ID = "poi_id";
   }

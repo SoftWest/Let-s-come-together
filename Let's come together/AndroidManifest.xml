@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.friendstogether.activity"
+    package="com.softwest.friendstogether.activity"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -12,7 +12,7 @@
      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <permission
-        android:name="com.friendstogether.activity.permission.MAPS_RECEIVE"
+        android:name="com.softwest.friendstogether.activity.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -52,7 +52,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCBrCzIy4naDKhYztkrprDzVtvh5fOQjiw" />
+            android:value="AIzaSyBrVEImjJwFBPf9l_5SK9ftUo-IGc_Wqm8" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />

@@ -1,10 +1,7 @@
 package com.softwest.friendstogether.web.responses;
 
-import com.softwest.friendstogether.web.responses.wrappers.ResponseBody;
-
-
 public class PeopleNearMe
-  extends ResponseBody
+
 {
   public int place_id;
   public int place_user_id;
@@ -19,6 +16,13 @@ public class PeopleNearMe
   
   public String place_status;
   public String user_nickname;
+  public String user_first_name;
+  public String user_last_name;
+  
+  public String user_pic;
+  public String user_birthday;
+  public String user_email;
+  public String user_tel_number;
   
   public String user_sex;
   

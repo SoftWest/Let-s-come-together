@@ -1,7 +1,6 @@
 package com.softwest.friendstogether.fragment;
 
-
-import com.friendstogether.activity.R;
+import com.softwest.friendstogether.activity.R;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.widget.LoginButton;
-import com.friendstogether.activity.R;
+
 import com.softwest.friendstogether.fragment.RegistrationFragment;
 
 public class LoginActivity
