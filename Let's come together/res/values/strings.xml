@@ -43,5 +43,7 @@
      <string name="person_name">John Miller</string>
      <string name="last_time_check_in">5 min ago</string>
      
+     <!--activity map  -->
+	 <string name="all_person_list">ALL</string>
 
 </resources>

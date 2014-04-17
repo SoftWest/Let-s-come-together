@@ -30,11 +30,13 @@
             android:layout_weight="0.6"
             class="com.google.android.gms.maps.SupportMapFragment" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/fl_person"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3" >
+            android:layout_weight="0.3"
+            android:orientation="vertical"
+            android:weightSum="1" >
 
             <View
                 android:id="@+id/view_first"
@@ -44,32 +46,53 @@
 
             <View
                 android:id="@+id/view_second"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/btn_large_size"
                 android:layout_height="@dimen/edge_normal"
-                android:layout_alignLeft="@+id/iv_check_in"
-                android:layout_alignRight="@+id/iv_check_in"
-                android:layout_below="@+id/view_first"
-                android:layout_marginLeft="@dimen/edge_large"
-                android:layout_marginRight="@dimen/edge_large"
+                android:layout_gravity="center"
                 android:background="@color/color_orange" />
+
+            <SlidingDrawer
+                android:id="@+id/slider_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:allowSingleTap="true"
+                android:content="@+id/content"
+                android:handle="@+id/handle"
+                tools:ignore="NestedWeights" >
+
+                <Button
+                    android:id="@+id/handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_person_list" />
+
+                <LinearLayout
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ListView
+                        android:id="@+id/list_persons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                    </ListView>
+                </LinearLayout>
+            </SlidingDrawer>
 
             <ImageView
                 android:id="@+id/iv_check_in"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/edge_normal"
+                android:layout_weight="0.2"
                 android:contentDescription="TODO"
                 android:src="@drawable/bt_selector_check_in"
                 tools:ignore="ContentDescription,HardcodedText" />
 
-            <ListView
-                android:id="@+id/list_persons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-            </ListView>
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
