@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fl_main_map"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    tools:ignore="UselessParent" >
 
     <LinearLayout
-        android:id="@+id/ll_main"
+        android:id="@+id/ll_extract"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1"
-        tools:ignore="UselessParent" >
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adMob"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-9306584564639064/4883640238" >
-        </com.google.android.gms.ads.AdView>
-
-        <fragment
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
-            class="com.google.android.gms.maps.SupportMapFragment" />
+        android:weightSum="1" >
 
         <LinearLayout
-            android:id="@+id/fl_person"
+            android:id="@+id/ll_map"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.8"
             android:orientation="vertical"
             android:weightSum="1" >
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adMob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-9306584564639064/4883640238" >
+            </com.google.android.gms.ads.AdView>
+
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                tools:ignore="NestedWeights" />
 
             <View
                 android:id="@+id/view_first"
@@ -44,55 +44,54 @@
                 android:layout_height="@dimen/edge_normal"
                 android:background="@color/color_gray" />
 
-            <View
+            <!-- <View
                 android:id="@+id/view_second"
                 android:layout_width="@dimen/btn_large_size"
                 android:layout_height="@dimen/edge_normal"
                 android:layout_gravity="center"
+                android:background="@color/color_orange" /> -->
+        </LinearLayout>
+
+        <SlidingDrawer
+            android:id="@+id/slider_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:content="@+id/content"
+            android:handle="@+id/handle"
+            tools:ignore="NestedWeights" >
+
+            <View
+                android:id="@+id/handle"
+                android:layout_width="@dimen/btn_large_size"
+                android:layout_height="@dimen/edge_above"
                 android:background="@color/color_orange" />
 
-            <SlidingDrawer
-                android:id="@+id/slider_drawer"
+            <LinearLayout
+                android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.8"
-                android:allowSingleTap="true"
-                android:content="@+id/content"
-                android:handle="@+id/handle"
-                tools:ignore="NestedWeights" >
+                android:layout_height="match_parent" >
 
-                <Button
-                    android:id="@+id/handle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/all_person_list" />
-
-                <LinearLayout
-                    android:id="@+id/content"
+                <ListView
+                    android:id="@+id/list_persons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <ListView
-                        android:id="@+id/list_persons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
+                </ListView>
+            </LinearLayout>
+        </SlidingDrawer>
 
-                    </ListView>
-                </LinearLayout>
-            </SlidingDrawer>
+        <ImageView
+            android:id="@+id/iv_check_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/edge_normal"
+            android:layout_marginTop="@dimen/edge_normal"
+            android:contentDescription="TODO"
+            android:src="@drawable/bt_selector_check_in"
+            tools:ignore="ContentDescription,HardcodedText" />
 
-            <ImageView
-                android:id="@+id/iv_check_in"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/edge_normal"
-                android:layout_weight="0.2"
-                android:contentDescription="TODO"
-                android:src="@drawable/bt_selector_check_in"
-                tools:ignore="ContentDescription,HardcodedText" />
-
-        </LinearLayout>
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

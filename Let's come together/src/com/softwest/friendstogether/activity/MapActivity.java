@@ -5,15 +5,22 @@ import java.util.List;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SlidingDrawer;
+import android.widget.SlidingDrawer.OnDrawerCloseListener;
+import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -31,7 +38,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 import com.softwest.friendstogether.adapters.PersonAdapter;
-import com.softwest.friendstogether.fragment.ListPersonsFragment;
 import com.softwest.friendstogether.utils.UserLocation;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.handlers.HttpMethods;
@@ -46,9 +52,10 @@ import com.softwest.friendstogether.web.responses.Primary;
 import com.softwest.friendstogether.web.responses.list.ListPeople;
 import com.softwest.friendstogether.web.responses.list.POI;
 
+@SuppressWarnings( "deprecation" )
 public class MapActivity
   extends BaseActivity
-  implements IResponse, OnInfoWindowClickListener, OnClickListener
+  implements IResponse, OnInfoWindowClickListener, OnClickListener, OnDrawerOpenListener, OnDrawerCloseListener,OnItemClickListener
 {
   private String mFacebookToken;
   public final static String LIST_PERSON = "list-person";
@@ -64,7 +71,10 @@ public class MapActivity
   private int mCheckInId;
   private ListView mListPersons;
   private ImageView mImageCheckIn;
-  private List<PeopleNearMe> mPeopleList= new ArrayList<PeopleNearMe>();
+  private List<PeopleNearMe> mPeopleList = new ArrayList<PeopleNearMe>();
+  private SlidingDrawer mSlidingDrawer;
+  private View mView;
+  private ImageView mHeart;
   
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -80,17 +90,17 @@ public class MapActivity
     mImageCheckIn = ( ImageView )findViewById( R.id.iv_check_in );
     mImageCheckIn.setOnClickListener( this );
     
-   
-    mListPersons = (ListView)findViewById( R.id.list_persons );
+    mSlidingDrawer = ( SlidingDrawer )findViewById( R.id.slider_drawer );
+    mSlidingDrawer.setOnDrawerOpenListener( this );
+    mSlidingDrawer.setOnDrawerCloseListener( this );
+ 
+    mListPersons = ( ListView )findViewById( R.id.list_persons );
+    mListPersons.setOnItemClickListener( this );
     
-    View v = (View)findViewById( R.id.view_first );
-    View v1 = (View)findViewById( R.id.view_second );
-    
-    v.setOnClickListener( this );
-    v1.setOnClickListener( this );
+    mView = ( View )findViewById( R.id.handle );
     
     // get information about current user
-    final CurrentUser user = ecstractUserPicture( );
+    final CurrentUser user = ecstractUserPicture();
     
     mFacebookToken = user.facebookToken;
     
@@ -105,9 +115,9 @@ public class MapActivity
     HttpMethods.getPlaceNiarMe( this, mLatitude, mLongitude, mZoom, token, this, POI.class );
     
     HttpMethods.peopleNearMe( this, mLatitude, mLongitude, token, this, ListPeople.class );
-  
+    
   }
-
+  
   private void settingMap( final CurrentUser user )
   {
     int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable( getBaseContext() );
@@ -142,7 +152,7 @@ public class MapActivity
     
     mGMap.animateCamera( CameraUpdateFactory.newCameraPosition( cameraPosition ) );
   }
-
+  
   private CameraPosition markIcon( final CurrentUser user )
   {
     LatLng latitude = new LatLng( mLatitude, mLongitude );
@@ -160,11 +170,11 @@ public class MapActivity
     CameraPosition cameraPosition = new CameraPosition.Builder().target( latitude ).zoom( 12 ).build();
     return cameraPosition;
   }
-
-  private CurrentUser ecstractUserPicture(  )
-  { 
-    LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
   
+  private CurrentUser ecstractUserPicture()
+  {
+    LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )getApplicationContext();
+    
     final CurrentUser user = app.getCurrentUser();
     
     if( android.os.Build.VERSION.SDK_INT > 9 )
@@ -267,7 +277,7 @@ public class MapActivity
     if( json.contains( "error" ) || json.contains( "exception" ) )
     {
       ComeTogetherEror error = Primary.fromJson( json, ComeTogetherEror.class );
-
+      
     }
     else if( classInfo.equals( facebook ) )
     {
@@ -314,25 +324,57 @@ public class MapActivity
     switch( v.getId() )
     {
       case R.id.iv_check_in:
-     
+        
         HttpMethods.checkIn( this, mCheckInId, WebApi.getServerToken(), this, CheckIn.class );
-       
+        
         break;
-      case R.id.view_first:
-      case R.id.view_second:
-        LinearLayout layout = (LinearLayout)findViewById( R.id.ll_main );
-        layout.setVisibility( View.GONE );
-        
-        ListPersonsFragment listPerson = new ListPersonsFragment( mPeopleList);
-        
-        FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
-        
-        tr.replace( R.id.fl_main_map, listPerson );
-        tr.addToBackStack( LIST_PERSON );
-        tr.commit();
-        
+      case R.id.handle:
+     
+        break;
+      case R.id.iv_heart:
+        mHeart.setBackgroundColor( Color.RED );
         break;
     }
+  }
+  
+  @Override
+  public void onDrawerOpened()
+  {
+    int height = ( int )TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics() );
+    
+    LinearLayout layout = ( LinearLayout )findViewById( R.id.ll_map );
+    layout.setVisibility( View.GONE );
+    
+    mImageCheckIn.setVisibility( View.GONE );
+    
+    mView.setLayoutParams( new LayoutParams( LayoutParams.MATCH_PARENT, height ) );
+    
+    mSlidingDrawer.setLayoutParams( new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.MATCH_PARENT ) );
+    
+  }
+  
+  @Override
+  public void onDrawerClosed()
+  {
+    int height = ( int )TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics() );
+    int width = ( int )TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics() );
+    
+    LinearLayout layout = ( LinearLayout )findViewById( R.id.ll_map );
+    layout.setVisibility( View.VISIBLE );
+    
+    mImageCheckIn.setVisibility( View.VISIBLE );
+    
+    mView.setLayoutParams( new LayoutParams( width, height ) );
+    // set new params in slider drawer
+    mSlidingDrawer.setLayoutParams( new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, 0, 0.2f ) );
+  }
+
+  @Override
+  public void onItemClick( AdapterView<?> parent, View view, int position, long id )
+  {
+   ImageView heart = mHeart = (ImageView)view.findViewById( R.id.iv_heart );
+ //  heart.setOnClickListener( this );
   }
   
 }
