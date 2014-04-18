@@ -75,7 +75,9 @@ public class MapActivity
   private SlidingDrawer mSlidingDrawer;
   private View mView;
   private ImageView mHeart;
-  
+  private boolean mCheckImage;
+  private List<Double> mLatitudeList = new ArrayList<Double>();
+  private List<Double> mLongitudeList = new ArrayList<Double>();
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
@@ -297,6 +299,7 @@ public class MapActivity
     else if( classInfo.equals( poi ) )
     {
       POI places = Primary.fromJson( json, POI.class );
+      
       mCheckInId = ( ( PlacesNiarMe )places.result ).poi_id;
     }
     else if( classInfo.equals( checkIn ) )
@@ -332,7 +335,11 @@ public class MapActivity
      
         break;
       case R.id.iv_heart:
-        mHeart.setBackgroundColor( Color.RED );
+        mCheckImage = !mCheckImage;
+        if(mCheckImage)
+        mHeart.setBackgroundResource( R.drawable.ic_heart_clicked );
+        else
+          mHeart.setBackgroundResource( R.drawable.ic_heart );
         break;
     }
   }
@@ -351,7 +358,6 @@ public class MapActivity
     
     mSlidingDrawer.setLayoutParams( new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT,
         LinearLayout.LayoutParams.MATCH_PARENT ) );
-    
   }
   
   @Override
@@ -374,7 +380,7 @@ public class MapActivity
   public void onItemClick( AdapterView<?> parent, View view, int position, long id )
   {
    ImageView heart = mHeart = (ImageView)view.findViewById( R.id.iv_heart );
- //  heart.setOnClickListener( this );
+   heart.setOnClickListener( this );
   }
   
 }

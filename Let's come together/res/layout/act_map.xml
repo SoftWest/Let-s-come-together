@@ -44,12 +44,14 @@
                 android:layout_height="@dimen/edge_normal"
                 android:background="@color/color_gray" />
 
-            <!-- <View
+            <!--
+                 <View
                 android:id="@+id/view_second"
                 android:layout_width="@dimen/btn_large_size"
                 android:layout_height="@dimen/edge_normal"
                 android:layout_gravity="center"
-                android:background="@color/color_orange" /> -->
+                android:background="@color/color_orange" />
+            -->
         </LinearLayout>
 
         <SlidingDrawer
@@ -70,22 +72,17 @@
             <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
-
                 android:layout_height="0dp"
                 android:layout_weight="0.8"
                 android:allowSingleTap="false"
                 android:content="@+id/content"
                 android:handle="@+id/handle"
-                tools:ignore="NestedWeights" >
-
-                android:layout_height="match_parent" >
-
+                tools:ignore="NestedWeights,ObsoleteLayoutParam" >
 
                 <ListView
                     android:id="@+id/list_persons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-
                 </ListView>
             </LinearLayout>
         </SlidingDrawer>
@@ -100,7 +97,6 @@
             android:contentDescription="TODO"
             android:src="@drawable/bt_selector_check_in"
             tools:ignore="ContentDescription,HardcodedText" />
-
     </LinearLayout>
 
 </RelativeLayout>
