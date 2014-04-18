@@ -60,7 +60,7 @@ public class PersonAdapter
     holder = new ViewHolder();
      
     holder.icon = (ImageView)view.findViewById( R.id.iv_person_icon );
-    holder.icon = (ImageView)view.findViewById( R.id.iv_check_in );
+    holder.icon = (ImageView)view.findViewById( R.id.iv_heart );
     
     holder.personName = (TextView)view.findViewById( R.id.tv_name );
     holder.personName.setText( people.user_nickname );

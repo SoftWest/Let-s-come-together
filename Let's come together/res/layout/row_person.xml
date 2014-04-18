@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/edge_medium" >
 
     <ImageView
@@ -55,21 +55,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         android:layout_marginRight="@dimen/edge_normal"
         android:orientation="vertical"
         tools:ignore="UseCompoundDrawables" >
 
         <ImageView
-            android:id="@+id/iv_check_in"
+            android:id="@+id/iv_heart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"
+            android:background="@drawable/ic_heart"
+            android:layout_gravity="center_horizontal"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/tv_last_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/edge_normal"
             android:text="@string/last_time_check_in"
             android:textColor="@color/color_gray"
             android:textSize="@dimen/text_mini" />
