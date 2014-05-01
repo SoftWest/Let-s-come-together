@@ -1,102 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fl_main_map"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="UselessParent" >
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/ll_extract"
+    <FrameLayout
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1" >
+        tools:ignore="UselessParent" >
 
         <LinearLayout
-            android:id="@+id/ll_map"
+            android:id="@+id/ll_extract"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.8"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:weightSum="1" >
 
-            <com.google.android.gms.ads.AdView
+            <include
                 android:id="@+id/adMob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-9306584564639064/4883640238" >
-            </com.google.android.gms.ads.AdView>
-
-            <fragment
-                android:id="@+id/map"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                class="com.google.android.gms.maps.SupportMapFragment"
+                layout="@layout/elm_adb_mob"
                 tools:ignore="NestedWeights" />
 
-            <View
-                android:id="@+id/view_first"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edge_normal"
-                android:background="@color/color_gray" />
-
-            <!--
-                 <View
-                android:id="@+id/view_second"
-                android:layout_width="@dimen/btn_large_size"
-                android:layout_height="@dimen/edge_normal"
-                android:layout_gravity="center"
-                android:background="@color/color_orange" />
-            -->
-        </LinearLayout>
-
-        <SlidingDrawer
-            android:id="@+id/slider_drawer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:content="@+id/content"
-            android:handle="@+id/handle"
-            tools:ignore="NestedWeights" >
-
-            <View
-                android:id="@+id/handle"
-                android:layout_width="@dimen/btn_large_size"
-                android:layout_height="@dimen/edge_above"
-                android:background="@color/color_orange" />
-
             <LinearLayout
-                android:id="@+id/content"
+                android:id="@+id/ll_map"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.8"
-                android:allowSingleTap="false"
-                android:content="@+id/content"
-                android:handle="@+id/handle"
-                tools:ignore="NestedWeights,ObsoleteLayoutParam" >
+                android:layout_weight="0.66"
+                android:orientation="vertical"
+                android:weightSum="1" >
 
-                <ListView
-                    android:id="@+id/list_persons"
+                <include
+                    android:id="@+id/elm_map"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                </ListView>
+                    android:layout_height="0dp"
+                    android:layout_weight="0.992"
+                    layout="@layout/elm_frg_map"
+                    tools:ignore="NestedWeights" />
+
+                <include
+                    android:id="@+id/view_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.008"
+                    layout="@layout/elm_view_for_map" />
             </LinearLayout>
-        </SlidingDrawer>
 
-        <ImageView
-            android:id="@+id/iv_check_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/edge_normal"
-            android:layout_marginTop="@dimen/edge_normal"
-            android:contentDescription="TODO"
-            android:src="@drawable/bt_selector_check_in"
-            tools:ignore="ContentDescription,HardcodedText" />
-    </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/upload_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.34" >
 
-</RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/error"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/pr_upload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/el_list_people"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/elm_list_people" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_check_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="@dimen/edge_normal"
+                android:layout_marginTop="@dimen/edge_normal"
+                android:contentDescription="TODO"
+                android:src="@drawable/bt_selector_check_in"
+                tools:ignore="ContentDescription,HardcodedText" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <ListView
+        android:id="@+id/list_slidermenu"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/list_background"
+        android:choiceMode="singleChoice"
+        android:divider="@color/list_divider"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selector" />
+
+</android.support.v4.widget.DrawerLayout>

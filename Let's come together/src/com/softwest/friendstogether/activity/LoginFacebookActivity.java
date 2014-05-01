@@ -22,24 +22,26 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
+import com.softwest.friendstogether.activity.MapActivity.IFacebookLogOut;
 import com.softwest.friendstogether.web.responses.CurrentUser;
 import com.softwest.friendstogether.web.responses.Primary;
 
 @SuppressWarnings( "deprecation" )
 public class LoginFacebookActivity
   extends BaseActivity
-  implements StatusCallback, GraphUserCallback
+  implements StatusCallback, GraphUserCallback,IFacebookLogOut
 
 {
   // Instance of Facebook Class
   String FILENAME = "AndroidSSO_data";
-  private static SharedPreferences mPrefs;
   private static Activity mActivity;
   
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
+    
+    setContentView( R.layout.act_login_facebook );
     
     mActivity = this;
     
@@ -87,7 +89,7 @@ public class LoginFacebookActivity
     super.onActivityResult( requestCode, resultCode, data );
     Session.getActiveSession().onActivityResult( mActivity, requestCode, resultCode, data );
   }
-
+  
   @Override
   public void call( Session session, SessionState state, Exception exception )
   {
@@ -116,10 +118,10 @@ public class LoginFacebookActivity
       LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )mActivity.getApplicationContext();
       app.setCurrentUser( currentUser );
       
-      Intent intent = new Intent( mActivity, MapActivity.class );
+      Intent intent = new Intent( mActivity, MapActivity.class);
       mActivity.startActivity( intent );
+      MapActivity.setFacebookLogOut( this );
     }
-    
   }
   
   private String getFacebookToken()
@@ -130,6 +132,19 @@ public class LoginFacebookActivity
       return session.getAccessToken();
     
     return null;
+  }
+
+  @Override
+  public void facebookLogOut()
+  {
+    if( Session.getActiveSession() != null )
+    {
+      Session.getActiveSession().closeAndClearTokenInformation();
+    }
+    Session.setActiveSession( null );
+    
+    Intent intentLogOut = new Intent( this, LoginActivity.class );
+    startActivity( intentLogOut );
   }
   
 }

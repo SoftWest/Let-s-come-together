@@ -24,6 +24,11 @@ public class PeopleNearMe
   public String user_email;
   public String user_tel_number;
   
+  public String diff_tm;
+  public String color;
+  
+  public String user_frcompany;
+  
   public String user_sex;
   
 }

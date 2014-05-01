@@ -2,7 +2,6 @@ package com.softwest.friendstogether.web.handlers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +13,13 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
+import com.softwest.friendstogether.utils.JsonObjectType;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.requests.Parameters;
 import com.softwest.friendstogether.web.responses.ComeTogetherEror;
@@ -103,8 +102,8 @@ public class HttpRequest
   }
   
   /** @param listener callBack for JSON
-   * @param classInfo class for parsing data from JSON */
-  public void postRequst( IResponse listener, Class<? extends Primary> classInfo )
+   * @param T class for parsing data from JSON */
+  public void postRequst( IResponse listener,JsonObjectType jsonObject )
   {
     mHandlerResponse = listener;
     InputStreamReader is = null;
@@ -139,12 +138,12 @@ public class HttpRequest
         String json = reader.readLine();
         
         if( null != mHandlerResponse )
-          mHandlerResponse.process( json, classInfo.getName() );
+          mHandlerResponse.process( json, jsonObject );
       }
       catch( Throwable ignore )
       {
         if( null != mHandlerResponse )
-          mHandlerResponse.process( ignore.toString(), classInfo );
+          mHandlerResponse.process( ignore.toString(), jsonObject );
         
         Log.w( LetIsGoTogetherAPP.TAG, "exception " + ignore );
       }

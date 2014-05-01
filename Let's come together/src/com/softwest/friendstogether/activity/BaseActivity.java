@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 public abstract class BaseActivity
   extends FragmentActivity
@@ -36,7 +38,6 @@ public abstract class BaseActivity
     {
       return super.getSupportFragmentManager();
     }
-    
     return activity.get().getSupportFragmentManager();
   }
   
@@ -142,5 +143,18 @@ public abstract class BaseActivity
         
       }
     }
+  }
+  /* (non-Javadoc)
+   * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+   */
+  @Override
+  public boolean onCreateOptionsMenu( Menu menu )
+  {
+    getMenuInflater().inflate( R.menu.base, menu );
+    
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate( R.menu.btn_menu, menu );
+    
+    return super.onCreateOptionsMenu( menu );
   }
 }

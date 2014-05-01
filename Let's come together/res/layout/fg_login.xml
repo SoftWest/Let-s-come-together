@@ -69,7 +69,7 @@
                 android:drawablePadding="@dimen/edge_above"
                 android:gravity="center_vertical|left"
                 android:hint="@string/point"
-                android:inputType="textPassword|numberPassword|phone"
+                android:inputType="textPassword"
                 android:padding="@dimen/edge_normal"
                 android:textColor="@color/color_white"
                 android:textColorHint="@color/color_text" />
@@ -136,7 +136,7 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/view_above"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_below="@+id/ll_buttons"
@@ -149,7 +149,7 @@
             android:id="@+id/tv_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view"
+            android:layout_below="@+id/view_above"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/edge_big"
             android:text="@string/sign_up"

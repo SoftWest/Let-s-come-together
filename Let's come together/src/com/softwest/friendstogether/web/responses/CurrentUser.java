@@ -45,5 +45,7 @@ public class CurrentUser
   public Object updated_time;
   
   public String username;
+  
+  public String birthday;
 }
 

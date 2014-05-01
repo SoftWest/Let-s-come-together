@@ -71,11 +71,12 @@
                 android:drawableLeft="@drawable/ic_lock_icon"
                 android:drawablePadding="@dimen/edge_above"
                 android:hint="@string/choose_password"
-                android:inputType="textPassword|phone|numberPassword"
+                android:inputType="numberPassword"
                 android:padding="@dimen/edge_normal"
                 android:textColor="@color/color_white"
                 android:textColorHint="@color/color_white"
-                android:textSize="@dimen/text_mini" />
+                android:textSize="@dimen/text_mini"
+                android:password="true" />
 
             <EditText
                 android:id="@+id/et_con_password"
@@ -87,11 +88,13 @@
                 android:drawableLeft="@drawable/ic_lock_green_icon"
                 android:drawablePadding="@dimen/edge_above"
                 android:hint="@string/confirm_password"
-                android:inputType="textEmailAddress|phone|numberPassword"
+                android:inputType="textPassword"
                 android:padding="@dimen/edge_normal"
                 android:textColor="@color/color_white"
                 android:textColorHint="@color/color_white"
-                android:textSize="@dimen/text_mini" >
+                android:textSize="@dimen/text_mini"
+                android:password="true" 
+                >
             </EditText>
         </LinearLayout>
 

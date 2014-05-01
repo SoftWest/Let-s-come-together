@@ -17,4 +17,5 @@ public class RegistrationFragment
    
     return v;
   }
+  
 }

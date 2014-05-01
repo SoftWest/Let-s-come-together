@@ -1,6 +1,9 @@
 package com.softwest.friendstogether.utils;
 
 /** Created by Bulan Yura */
+import com.softwest.friendstogether.LetIsGoTogetherAPP;
+import com.softwest.friendstogether.activity.R;
+
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -19,15 +22,14 @@ public class UserLocation
   implements LocationListener
 {
   private final Context mContext;
-  
   // GPS status and network
-  boolean isGPSEnabled = false;
-  boolean isNetworkEnabled = false;
-  boolean canGetLocation = false;
+  private boolean isGPSEnabled = false;
+  private  boolean isNetworkEnabled = false;
+  private  boolean canGetLocation = false;
   
-  Location location;
-  double latitude; // latitude
-  double longitude; // longitude
+  private Location location;
+  private double latitude; // latitude
+  private  double longitude; // longitude
   
   // Updates
   private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
@@ -51,10 +53,7 @@ public class UserLocation
       
       isNetworkEnabled = locationManager.isProviderEnabled( LocationManager.NETWORK_PROVIDER );
       
-      if( !isGPSEnabled && !isNetworkEnabled )
-      {
-      }
-      else
+      if(isGPSEnabled && isNetworkEnabled )
       {
         this.canGetLocation = true;
         
@@ -79,7 +78,7 @@ public class UserLocation
           {
             locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this );
-            Log.d( "GPS Enabled", "GPS Enabled" );
+            Log.d( LetIsGoTogetherAPP.TAG, "GPS Enabled" );
             if( locationManager != null )
             {
               location = locationManager.getLastKnownLocation( LocationManager.GPS_PROVIDER );
@@ -101,23 +100,17 @@ public class UserLocation
     
     return location;
   }
-  
   // Stop using GPS listener
-  
   public void stopUsingGPS()
   {
     if( locationManager != null )
-    {
       locationManager.removeUpdates( UserLocation.this );
-    }
-  }
+ }
   
   public double getLatitude()
   {
     if( location != null )
-    {
       latitude = location.getLatitude();
-    }
     
     return latitude;
   }
@@ -125,9 +118,7 @@ public class UserLocation
   public double getLongitude()
   {
     if( location != null )
-    {
       longitude = location.getLongitude();
-    }
     
     return longitude;
   }
@@ -136,13 +127,12 @@ public class UserLocation
   {
     return this.canGetLocation;
   }
-  
   // Function to show settings alert dialog
   public void showSettingsAlert()
   {
     AlertDialog.Builder alertDialog = new AlertDialog.Builder( mContext );
-    alertDialog.setTitle( "GPS is settings" );
-    alertDialog.setMessage( "GPS is not enabled. Do you want to go to settings menu?" );
+    alertDialog.setTitle( R.string.user_gps_location );
+    alertDialog.setMessage( R.string.user_gps_enable);
     alertDialog.setPositiveButton( "Settings", new DialogInterface.OnClickListener()
     {
       public void onClick( DialogInterface dialog, int which )

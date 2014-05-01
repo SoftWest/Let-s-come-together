@@ -12,7 +12,10 @@ public class LetIsGoTogetherAPP
   
   /** info about current user */
   private CurrentUser mCurrentUser;
-  private int counter;
+  /**
+   * counter open drawer slider
+   */
+  private int mCounterDrawer;
   
   /** server identificator */
   private String mServerToken;
@@ -45,14 +48,20 @@ public class LetIsGoTogetherAPP
     return mCurrentUser;
   }
 
-  public int getCounter()
+  /**
+   * @return the counterDrawer
+   */
+  public int getCounterDrawer()
   {
-    return counter;
+    return mCounterDrawer;
   }
 
-  public void setCounter( int counter )
+  /**
+   * @param count
+   */
+  public void setCounterDrawer( int mCounterDrawer )
   {
-    this.counter = counter;
+    this.mCounterDrawer = mCounterDrawer;
   }
   
 }

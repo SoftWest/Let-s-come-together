@@ -14,12 +14,8 @@ import android.util.Log;
 
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
 
- 
 /** Web API integration helper class. */
-/**
- * @author Taras Matolinets
- *
- */
+/** @author Taras Matolinets */
 public class WebApi
 {
   // #region Constants
@@ -36,27 +32,26 @@ public class WebApi
   /** Default content type for calls. */
   public final static String WEB_HOST = "http://come2gether.softwest.net";
   /** Default content type for calls. */
-  public final static String REQUEST = "/req"; 
+  public final static String REQUEST = "/req";
   public final static String CONTENT_TYPE_JSON = "application/json";
-  /** server token*/
+  public final static String IMAGE_FACEBOOK_SIZE_NORMAL = "/picture";
+  public final static String IMAGE_FACEBOOK_SIZE_AVATAR = "/picture?width=150&height=150";
+  
+  /** server token */
   public static String ServerToken;
   // #endregion
   
-  /**
-   * @return server token
-   */
+  /** @return server token */
   public static String getServerToken()
   {
     return ServerToken;
   }
-
+  
   // #region Nested declarations
   /** List of all known to WEB API methods. */
   
-  /**
-   * @param set server token
-   */
-  public static void setServerToken(String token)
+  /** @param set server token */
+  public static void setServerToken( String token )
   {
     ServerToken = token;
   }
@@ -70,28 +65,29 @@ public class WebApi
     public final static String Get_Poi = "/getpoi";
     /** */
     public final static String Check_In = "/checkin";
-   
+    
   }
   
   /** List of known query parameters for web methods. */
   public interface Query
   {
     public final static String TOKEN = "user_fb_token";
-   
+    
     public final static String PLACE_LATITUDE_PLACE = "place_latitude";
-  
+    
     public final static String PLACE_LONGTITUDE_PLACE = "place_longtitude";
     
     public final static String PLACE_LATITUDE_POI = "poi_latitude";
-  
+    
     public final static String PLACE_LONGTITUDE_POI = "poi_longtitude";
     
     public final static String SERVER_TOKEN = "server_id";
-  
+    
     public final static String ZOOM = "zoom";
     
     public final static String POI_ID = "poi_id";
   }
+  
   // #endregion
   /** read input stream into string.
    * 
@@ -99,7 +95,7 @@ public class WebApi
    * @return extracted text */
   public static String readUTF8( InputStreamReader reader ) throws IOException
   {
-   // final InputStreamReader reader = new InputStreamReader( stream, UTF8 );
+    // final InputStreamReader reader = new InputStreamReader( stream, UTF8 );
     StringWriter writer = new StringWriter();
     
     int len = 0;
@@ -116,11 +112,9 @@ public class WebApi
     return writer.toString();
   }
   
-  /**
-   * @param redirect URI from server
-   * @return image Bitmap
-   */
-  public static Bitmap getFacebookIcon( String uri )
+  /** @param redirect URI from server
+   * @return image Bitmap */
+  public static Bitmap getImageFromUri( String uri )
   {
     Bitmap bitmap = null;
     
@@ -129,7 +123,7 @@ public class WebApi
     {
       StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
       StrictMode.setThreadPolicy( policy );
-     
+      
       URL imageURL = new URL( uri );
       in = ( InputStream )imageURL.getContent();
       
@@ -137,23 +131,28 @@ public class WebApi
     }
     catch( Throwable e )
     {
-      Log.w( LetIsGoTogetherAPP.TAG, e.toString() );
+      Log.w( TAG, e.toString() );
     }
     return bitmap;
   }
   
-  /**
-   * @param id facebook user id
-   * @return new redirect URI
-   */
-  public static String getRedirectUri( String id )
+  /** @param id facebook user id
+   * @return new redirect URI */
+  public static String getRedirectUri( String id, String imageSize )
   {
     String newUrl = null;
     try
     {
-      boolean redirect = false;
+      StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+      StrictMode.setThreadPolicy( policy );
       
-      String url = "http://graph.facebook.com/" + id + "/picture";
+      boolean redirect = false;
+      String url = null;
+      if( imageSize.equalsIgnoreCase( "normal" ) )
+        url = "http://graph.facebook.com/" + id + IMAGE_FACEBOOK_SIZE_NORMAL;
+      else if( imageSize.equalsIgnoreCase( "avatar" ) )
+        url = "http://graph.facebook.com/" + id + IMAGE_FACEBOOK_SIZE_AVATAR;
+      
       URL obj = new URL( url );
       HttpURLConnection conn = ( HttpURLConnection )obj.openConnection();
       conn.setReadTimeout( 5000 );
@@ -161,15 +160,15 @@ public class WebApi
       int status = conn.getResponseCode();
       
       if( status != HttpURLConnection.HTTP_OK )
-          redirect = true;
+        redirect = true;
       
       if( redirect )
         newUrl = conn.getHeaderField( "Location" );
-     
+      
     }
     catch( Exception e )
     {
-      Log.w( LetIsGoTogetherAPP.TAG, e.toString() );
+      Log.w( TAG, e.toString() );
     }
     return newUrl;
   }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login" >
+
+    <LinearLayout
+        android:id="@+id/ll_rating"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent" >
+
+        <TextView
+            android:id="@+id/app_fb_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/edge_big"
+            android:text="@string/app_about"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_normal"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tv_fb_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/fb_rate"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_normal"
+            android:typeface="monospace" />
+
+        <RatingBar
+            android:id="@+id/app_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:rating="3" />
+
+        <TextView
+            android:id="@+id/tv_fb_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/edge_big"
+            android:text="@string/fb_comment"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_normal"
+            android:typeface="monospace" />
+
+        <EditText
+            android:id="@+id/app_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_most_size"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.5"
+            android:background="@color/color_black"
+            android:ems="10"
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            android:textColor="@color/color_white"
+            android:textColorHint="@color/color_text" />
+
+        <Button
+            android:id="@+id/bt_app_send"
+            android:layout_width="@dimen/btn_extra_large_size"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/edge_big"
+            android:layout_marginRight="@dimen/edge_big"
+            android:layout_marginTop="@dimen/edge_large"
+            android:background="@drawable/orange_roundbutton"
+            android:text="@string/btn_send"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_mini" />
+
+    </LinearLayout>
+
+</FrameLayout>

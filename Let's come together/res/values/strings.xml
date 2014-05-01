@@ -10,9 +10,10 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="email_adress">E-mail address</string>
     <string name="sign_up">New here? Sign up</string>
+    <string name="no_itnernet_connect">Please check your internet connection</string>
     <string name="point">••••••</string>
 
-    <!-- regstration fragment -->
+    <!-- registration fragment -->
     <string name="register_sub_tittle">Be Always With Friends</string>
     <string name="email_adress_input">your E-mail address</string>
     
@@ -46,4 +47,69 @@
      <!--activity map  -->
 	 <string name="all_person_list">ALL</string>
 
+	 
+	 <!--user location  -->
+	 <string name="user_gps_location"> GPS is settings</string>
+	 <string name="user_gps_enable">"GPS is not enabled. Do you want to go to settings menu?"</string>
+	
+	 
+	 <!--errors  -->
+	 <string name="error">Error</string>
+
+	 <!-- drawer menu -->
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+    
+    <string-array name="nav_drawer_items">
+        <item >Profile</item>
+        <item >View</item>
+        <item >Search</item>
+        <item >Logout</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_profile</item>
+        <item>@drawable/ic_view</item>
+        <item>@drawable/ic_search</item>
+        <item>@drawable/ic_logout</item>        
+    </array>
+    
+    <string name="desc_list_item_icon">Item Icon</string>
+    
+     <!-- fitbeak -->
+    
+    <string name="app_about">Let is come together - android mobile application. Version 1.0</string>
+    <string name="btn_send">Send</string>
+    <string name="app_rating_text">Rate App</string>
+    <string name="app_comment_text">Comment</string>
+    <string name="fb_comment">Comment</string>
+    <string name="fb_rate">Rate App</string>
+    
+    <!-- Profile -->
+    
+    <string name="user_nick_name">Nick name</string>
+    <string name="v_user_nick_name">nickname</string>
+    <string name="user_gender">Gender</string>
+    <string name="v_user_gender">male</string>
+    <string name="birth">Birthday</string>
+	<string name="v_user_date_of_birth">0000-00-00</string>
+	<string name="user_email">Email</string>
+	<string name="v_user_email">username@mail</string>
+	<string name="user_phone">Phone</string>
+	<string name="v_user_phone">+380000000000</string>
+    <string name="vis_fr_map">Visibility friends on the map</string>
+    <string name="save_setting">Save</string>  
+    <string-array name="visible_friends_list">
+    					<item>All friends</item>
+    					<item>Friends Facebook</item>
+   					    <item>Favourites friends</item>
+   					    <item>None</item>
+    </string-array>
+    
+    <!-- View Settings -->
+    
+    <string name="looking_for">Looking for</string>
+	<string name="v_looking_for">Friendship</string>
+	<string name="orientation">Orientation</string>
+	<string name="v_orientation">Hetero</string>
 </resources>
