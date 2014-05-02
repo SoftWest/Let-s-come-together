@@ -35,6 +35,7 @@ import com.softwest.friendstogether.activity.SettingMapActivity.ShowJsonObject;
 import com.softwest.friendstogether.adapters.PersonAdapter;
 import com.softwest.friendstogether.fragment.FitBeakFragment;
 import com.softwest.friendstogether.fragment.ProfileFragment;
+import com.softwest.friendstogether.fragment.SettingFragment;
 import com.softwest.friendstogether.utils.JsonObjectType;
 import com.softwest.friendstogether.utils.MenuListAdapter;
 import com.softwest.friendstogether.utils.MenuNavDrawerItem;
@@ -120,21 +121,7 @@ public class MapActivity
     getActionBar().setDisplayHomeAsUpEnabled( true );
     getActionBar().setHomeButtonEnabled( true );
     
-    mDrawerToggle = new ActionBarDrawerToggle( this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name,
-        R.string.app_name )
-    {
-      public void onDrawerClosed( View view )
-      {
-        getActionBar().setTitle( mTitle );
-        invalidateOptionsMenu();
-      }
-      
-      public void onDrawerOpened( View drawerView )
-      {
-        getActionBar().setTitle( mDrawerTitle );
-        invalidateOptionsMenu();
-      }
-    };
+    initDrawerToggle();
     
     mDrawerLayout.setDrawerListener( mDrawerToggle );
     
@@ -165,8 +152,25 @@ public class MapActivity
     mLatitude = mSettingMap.getLatitude();
     mLongitude = mSettingMap.getLongitude();
     mZoom = mSettingMap.getZoom();
-    
-    jsonRequests();
+  }
+
+  private void initDrawerToggle()
+  {
+    mDrawerToggle = new ActionBarDrawerToggle( this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name,
+        R.string.app_name )
+    {
+      public void onDrawerClosed( View view )
+      {
+        getActionBar().setTitle( mTitle );
+        invalidateOptionsMenu();
+      }
+      
+      public void onDrawerOpened( View drawerView )
+      {
+        getActionBar().setTitle( mDrawerTitle );
+        invalidateOptionsMenu();
+      }
+    };
   }
   
   private void jsonRequests()
@@ -209,7 +213,7 @@ public class MapActivity
     switch( item.getItemId() )
     {
       case R.id.action_settings:
-        
+        replace( SettingFragment.class, R.id.fl_main, null, true );
         return true;
       case R.id.page_fitbeak:
         replace( FitBeakFragment.class, R.id.fl_main, null, true );
@@ -219,7 +223,6 @@ public class MapActivity
         return super.onOptionsItemSelected( item );
     }
   }
-  
   /* *
    * Called when invalidateOptionsMenu() is triggered
    */
@@ -250,11 +253,13 @@ public class MapActivity
         mDrawerLayout.closeDrawer( mDrawerList );
         break;
       case MAP_VIEW:
+        if(!( this instanceof MapActivity ))
+        {
         Intent intent = new Intent( this, MapActivity.class );
         startActivity( intent );
+        }
         break;
       case SEARCH:
-        
         break;
       case FACEBOOK_LOG_OUT:
         if( null != mFacebookLogOut )
@@ -293,6 +298,8 @@ public class MapActivity
   public void onResume()
   {
     super.onResume();
+    jsonRequests();
+    
     if( mAdView != null )
       mAdView.resume();
   }
@@ -346,7 +353,7 @@ public class MapActivity
     switch( v.getId() )
     {
       case R.id.iv_check_in:
-        HttpMethods.checkIn( this, mCheckInId, WebApi.getServerToken(), this, JsonObjectType.CHECK_IN );
+        HttpMethods.checkIn( this, /*mCheckInId*/17875, WebApi.getServerToken(), this, JsonObjectType.CHECK_IN );
         break;
       case R.id.iv_heart:
         mCheckImage = !mCheckImage;

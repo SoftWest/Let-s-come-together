@@ -65,7 +65,8 @@ public class WebApi
     public final static String Get_Poi = "/getpoi";
     /** */
     public final static String Check_In = "/checkin";
-    
+    /** */
+    public final static String Save_Search_Setting = "/SaveSearchSettings";
   }
   
   /** List of known query parameters for web methods. */
@@ -86,6 +87,10 @@ public class WebApi
     public final static String ZOOM = "zoom";
     
     public final static String POI_ID = "poi_id";
+
+    public final static String LANG = "lang";
+    
+    public final static String GET_PARAM = "get_param";
   }
   
   // #endregion
@@ -95,21 +100,21 @@ public class WebApi
    * @return extracted text */
   public static String readUTF8( InputStreamReader reader ) throws IOException
   {
-    // final InputStreamReader reader = new InputStreamReader( stream, UTF8 );
+    //final InputStreamReader reader = new InputStreamReader( stream, UTF8 );
     StringWriter writer = new StringWriter();
     
     int len = 0;
-    char[] buffer = new char[ 2048 ];
+    char[] buffer = new char[ 2028 ];
     
     while( ( len = reader.read( buffer ) ) > 0 )
     {
       writer.write( buffer, 0, len );
     }
-    
+    Log.d( "php code", writer.toString() );
     // close reader after all
-    reader.close();
-    
-    return writer.toString();
+   reader.close();
+
+   return writer.toString();
   }
   
   /** @param redirect URI from server
@@ -172,4 +177,6 @@ public class WebApi
     }
     return newUrl;
   }
+
+  
 }

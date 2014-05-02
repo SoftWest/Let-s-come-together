@@ -60,4 +60,17 @@ public final class HttpMethods
     
     return request;
   }
+  
+  public static HttpRequest saveSearchSettings( final Context context, int param, String language, IResponse listener,
+      JsonObjectType jsonObject )
+  {
+    HttpRequest request = new HttpRequest( context, WebApi.Methods.Save_Search_Setting );
+    
+    request.addParameter( WebApi.Query.GET_PARAM, String.valueOf( param ) );
+    request.addParameter( WebApi.Query.LANG, language );
+    
+    request.postRequst( listener, jsonObject );
+    
+    return request;
+  }
 }

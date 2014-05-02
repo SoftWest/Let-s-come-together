@@ -44,7 +44,7 @@
             android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/et_email"
+                android:id="@+id/et_email_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:alpha="0.5"

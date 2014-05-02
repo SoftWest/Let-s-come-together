@@ -6,7 +6,8 @@ public enum JsonObjectType
   FACEBOOK_TOKEN,
   POI,
   PEOPLE,
-  CHECK_IN;
+  CHECK_IN,
+  SAVE_SEARCH_SETTINGS;
   
   public static JsonObjectType switchJsonObjectType(JsonObjectType type)
   {
@@ -22,6 +23,8 @@ public enum JsonObjectType
         return JsonObjectType.PEOPLE;
       case CHECK_IN:
         return JsonObjectType.CHECK_IN;
+      case SAVE_SEARCH_SETTINGS:
+        return JsonObjectType.SAVE_SEARCH_SETTINGS;
     }
     return type;
   }

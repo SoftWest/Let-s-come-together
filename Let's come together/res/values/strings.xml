@@ -2,7 +2,7 @@
 <resources>
 
     <!-- app name -->
- <string name="app_id">1419097081679140</string>
+    <string name="app_id">1419097081679140</string>
     <string name="app_name">Come Together</string>
     <string name="action_settings">Settings</string>
 
@@ -16,100 +16,118 @@
     <!-- registration fragment -->
     <string name="register_sub_tittle">Be Always With Friends</string>
     <string name="email_adress_input">your E-mail address</string>
-    
     <string name="choose_password">choose password</string>
     <string name="confirm_password">confirm password</string>
     <string name="account_type">Account type</string>
-    
     <string name="nick_name">Nick Name</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    
     <string name="bithhday_date">Birthday date</string>
-    
     <string name="day_num">1</string>
     <string name="mounth_num">Jan</string>
     <string name="year_num">2014</string>
-
     <string name="sign_up_reg">Sign up</string>
-    
+
     <!-- buttons names -->
     <string name="login_program">Log in</string>
     <string name="login_facebook">Sig in with Facebook</string>
     <string name="login_twitter">Sig in with Twitter</string>
-    
-    <!--peson adapter  -->
-     <string name="tv_city">Луцьк</string>
-     <string name="tv_place">Resotoran</string>
-     <string name="person_name">John Miller</string>
-     <string name="last_time_check_in">5 min ago</string>
-     
-     <!--activity map  -->
-	 <string name="all_person_list">ALL</string>
 
-	 
-	 <!--user location  -->
-	 <string name="user_gps_location"> GPS is settings</string>
-	 <string name="user_gps_enable">"GPS is not enabled. Do you want to go to settings menu?"</string>
-	
-	 
-	 <!--errors  -->
-	 <string name="error">Error</string>
+    <!-- peson adapter -->
+    <string name="tv_city">Луцьк</string>
+    <string name="tv_place">Resotoran</string>
+    <string name="person_name">John Miller</string>
+    <string name="last_time_check_in">5 min ago</string>
 
-	 <!-- drawer menu -->
+    <!-- activity map -->
+    <string name="all_person_list">ALL</string>
+
+    <!-- user location -->
+    <string name="user_gps_location"> GPS is settings</string>
+    <string name="user_gps_enable">"GPS is not enabled. Do you want to go to settings menu?"</string>
+
+    <!-- Setting Fragment -->
+    <string name="set_first_name">First Name</string>
+    <string name="set_email">E-mail</string>
+    <string name="set_last_name">Last Name</string>
+    <string name="set_phone_num">Phone number</string>
+    <string name="set_nick_name">Nick Name</string>
+    <string name="set_education">Education</string>
+    <string name="set_languages"> Languages</string>
+    <string name="set_gender">Gender</string>
+    <string name="set_fin_pos">Finansial Position</string>
+    <string name="set_orientation">Orientation</string>
+    <string name="set_data_birthday">Birthday</string>
+    <string name="set_heigh">Heigh</string>
+    <string name="set_weigth">Weight</string>
+    <string name="set_residence">Residence</string>
+    <string name="set_body_type">Body Type</string>
+    <string name="set_looking_for">Looking For</string>
+    <string name="set_appearance">Appearance</string>
+    <string name="set_smoker">Smoker</string>
+    <string name="set_drink_habits">Drink Habits</string>
+     <string name="set_relationship">RelationShip</string>
+    <string name="set_localization">Localization</string>
+
+    <!-- errors -->
+    <string name="error">Error</string>
+
+    <!-- drawer menu -->
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
-    
+
     <string-array name="nav_drawer_items">
-        <item >Profile</item>
-        <item >View</item>
-        <item >Search</item>
-        <item >Logout</item>
+        <item>Profile</item>
+        <item>View</item>
+        <item>Search</item>
+        <item>Logout</item>
     </string-array>
 
     <array name="nav_drawer_icons">
         <item>@drawable/ic_profile</item>
         <item>@drawable/ic_view</item>
         <item>@drawable/ic_search</item>
-        <item>@drawable/ic_logout</item>        
+        <item>@drawable/ic_logout</item>
     </array>
-    
+
     <string name="desc_list_item_icon">Item Icon</string>
-    
-     <!-- fitbeak -->
-    
+
+    <!-- fitbeak -->
+
     <string name="app_about">Let is come together - android mobile application. Version 1.0</string>
     <string name="btn_send">Send</string>
     <string name="app_rating_text">Rate App</string>
     <string name="app_comment_text">Comment</string>
     <string name="fb_comment">Comment</string>
     <string name="fb_rate">Rate App</string>
-    
+
     <!-- Profile -->
-    
+
     <string name="user_nick_name">Nick name</string>
     <string name="v_user_nick_name">nickname</string>
     <string name="user_gender">Gender</string>
     <string name="v_user_gender">male</string>
     <string name="birth">Birthday</string>
-	<string name="v_user_date_of_birth">0000-00-00</string>
-	<string name="user_email">Email</string>
-	<string name="v_user_email">username@mail</string>
-	<string name="user_phone">Phone</string>
-	<string name="v_user_phone">+380000000000</string>
+    <string name="v_user_date_of_birth">0000-00-00</string>
+    <string name="user_email">Email</string>
+    <string name="v_user_email">username@mail</string>
+    <string name="user_phone">Phone</string>
+    <string name="v_user_phone">+380000000000</string>
     <string name="vis_fr_map">Visibility friends on the map</string>
-    <string name="save_setting">Save</string>  
+    <string name="save_setting">Save</string>
+
     <string-array name="visible_friends_list">
-    					<item>All friends</item>
-    					<item>Friends Facebook</item>
-   					    <item>Favourites friends</item>
-   					    <item>None</item>
+        <item>All friends</item>
+        <item>Friends Facebook</item>
+        <item>Favourites friends</item>
+        <item>None</item>
     </string-array>
-    
+
     <!-- View Settings -->
-    
+
     <string name="looking_for">Looking for</string>
-	<string name="v_looking_for">Friendship</string>
-	<string name="orientation">Orientation</string>
-	<string name="v_orientation">Hetero</string>
+    <string name="v_looking_for">Friendship</string>
+    <string name="orientation">Orientation</string>
+    <string name="v_orientation">Hetero</string>
+
 </resources>

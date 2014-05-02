@@ -62,7 +62,7 @@ public class PersonAdapter
       
       holder.icon = ( ImageView )view.findViewById( R.id.iv_person_icon );
       holder.city = ( TextView )view.findViewById( R.id.tv_city );
-      holder.personName = ( TextView )view.findViewById( R.id.tv_name );
+      holder.personName = ( TextView )view.findViewById( R.id.et_nick_name );
       holder.lastTimeCheckIn = ( TextView )view.findViewById( R.id.tv_last_time_check );
       
       holder.icon.setImageBitmap( WebApi.getImageFromUri( WebApi.WEB_HOST + people.user_pic ) );

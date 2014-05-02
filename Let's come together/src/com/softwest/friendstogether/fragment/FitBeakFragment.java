@@ -20,7 +20,6 @@ import com.softwest.friendstogether.web.responses.CurrentUser;
 
 public class FitBeakFragment
   extends BaseFragment implements OnClickListener,OnEditorActionListener
-
 {
   private Button mBtnSend;
   private EditText mUserComment;

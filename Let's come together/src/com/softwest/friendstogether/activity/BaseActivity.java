@@ -155,6 +155,11 @@ public abstract class BaseActivity
     MenuInflater inflater = getMenuInflater();
     inflater.inflate( R.menu.btn_menu, menu );
     
+    if(activity.get() instanceof LoginActivity)
+    { 
+      menu.findItem( R.id.action_settings ).setVisible( false );
+      menu.findItem( R.id.page_fitbeak ).setVisible( false );
+    }
     return super.onCreateOptionsMenu( menu );
   }
 }

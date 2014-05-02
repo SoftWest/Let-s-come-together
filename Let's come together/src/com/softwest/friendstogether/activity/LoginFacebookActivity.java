@@ -35,6 +35,9 @@ public class LoginFacebookActivity
   // Instance of Facebook Class
   String FILENAME = "AndroidSSO_data";
   private static Activity mActivity;
+  private final static String LOG_IN = "log-in";
+  private final static String LOG_OUT = "log-out";
+  public final static String ACCESS_TOKEN ="access_token";
   
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -102,10 +105,7 @@ public class LoginFacebookActivity
   {
     if( null != user )
     {
-      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences( mActivity );
-      SharedPreferences.Editor editor = preferences.edit();
-      editor.putString( "access_token", getFacebookToken() );
-      editor.commit();
+      saveFacebookToken(LOG_IN);
       
       GraphObject object = user;
       String json = object.getInnerJSONObject().toString();
@@ -122,6 +122,19 @@ public class LoginFacebookActivity
       mActivity.startActivity( intent );
       MapActivity.setFacebookLogOut( this );
     }
+  }
+
+  private void saveFacebookToken(String status)
+  {
+    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences( mActivity );
+    SharedPreferences.Editor editor = preferences.edit();
+    
+    if(status.equalsIgnoreCase( LOG_IN ))
+    editor.putString( ACCESS_TOKEN, getFacebookToken() );
+    else if(status.equalsIgnoreCase( LOG_OUT ))
+      editor.putString( ACCESS_TOKEN, null );
+    
+    editor.commit();
   }
   
   private String getFacebookToken()
@@ -142,6 +155,8 @@ public class LoginFacebookActivity
       Session.getActiveSession().closeAndClearTokenInformation();
     }
     Session.setActiveSession( null );
+    
+    saveFacebookToken(LOG_OUT);
     
     Intent intentLogOut = new Intent( this, LoginActivity.class );
     startActivity( intentLogOut );

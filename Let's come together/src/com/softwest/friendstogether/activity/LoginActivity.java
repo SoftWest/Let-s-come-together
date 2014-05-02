@@ -3,6 +3,8 @@ package com.softwest.friendstogether.activity;
 import android.content.Intent;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,7 +19,6 @@ public class LoginActivity
   extends BaseActivity
   implements OnClickListener
 {
-  
   private LoginButton mLoginFacebook;
   private Button mLoginProgram;
   private TextView mSigIn;
@@ -41,9 +42,8 @@ public class LoginActivity
     mLoginFacebook.setOnClickListener( this );
     mLoginProgram.setOnClickListener( this );
     mSigIn.setOnClickListener( this );
-    
-  }
   
+  }
   @Override
   public void onClick( View v )
   {

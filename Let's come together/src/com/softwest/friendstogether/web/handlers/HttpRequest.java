@@ -2,10 +2,13 @@ package com.softwest.friendstogether.web.handlers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -13,6 +16,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
 import android.os.StrictMode;
@@ -23,7 +27,6 @@ import com.softwest.friendstogether.utils.JsonObjectType;
 import com.softwest.friendstogether.web.WebApi;
 import com.softwest.friendstogether.web.requests.Parameters;
 import com.softwest.friendstogether.web.responses.ComeTogetherEror;
-import com.softwest.friendstogether.web.responses.Primary;
 
 public class HttpRequest
 
@@ -115,24 +118,28 @@ public class HttpRequest
         StrictMode.setThreadPolicy( policy );
         
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost( WebApi.WEB_HOST + WebApi.REQUEST + mMethod );
-        
+        final HttpPost httppost = new HttpPost( WebApi.WEB_HOST + WebApi.REQUEST + mMethod );
         // no idea what this does :)
         httppost.setEntity( new UrlEncodedFormEntity( mValues ) );
         
         Log.d( "uri", "uri " + httppost.getURI() );
         // This is the line that send the request
       
-        HttpResponse response = httpclient.execute( httppost );
+        final HttpResponse response = httpclient.execute( httppost );
        
         is = new InputStreamReader( response.getEntity().getContent(), "UTF-8" );
-       
-//        String output = WebApi.readUTF8( is );
-//        Log.w( LetIsGoTogetherAPP.TAG, "The Begining." );
-//        for( String line : split( output, 1024 ) )
-//        Log.i( LetIsGoTogetherAPP.TAG, "Response: " + line );
-//        
-//        Log.w( LetIsGoTogetherAPP.TAG, "The End." );
+        
+      
+        if(jsonObject == JsonObjectType.CHECK_IN)
+        {
+        String output = WebApi.readUTF8( is );
+        Log.w( LetIsGoTogetherAPP.TAG, "The Begining." );
+        
+        for( String line : split( output, 1024 ) )
+        Log.i( LetIsGoTogetherAPP.TAG, "Response: " + line );
+        
+        Log.w( LetIsGoTogetherAPP.TAG, "The End." );
+        }
         
         BufferedReader reader = new BufferedReader( is );
         String json = reader.readLine();

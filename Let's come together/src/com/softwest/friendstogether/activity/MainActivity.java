@@ -17,7 +17,7 @@ public class MainActivity
     
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     
-    String access_token = preferences.getString( "access_token", null );
+    String access_token = preferences.getString(LoginFacebookActivity.ACCESS_TOKEN, null );
     
     if( null == access_token )
     {
