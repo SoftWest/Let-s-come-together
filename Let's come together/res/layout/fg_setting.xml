@@ -2,192 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_login" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_login"
+    android:orientation="vertical" >
 
-    <ScrollView
-        android:id="@+id/scroll_setting"
+    <ListView
+        android:id="@+id/lv_filter"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/bt_save"
+        android:layout_width="@dimen/btn_extra_large_size"
         android:layout_height="wrap_content"
-         >
-
-        <LinearLayout
-            android:id="@+id/rl_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/edge_normal"
-            android:alpha="0.5"
-            android:background="@color/color_black"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1" >
-
-            <LinearLayout
-                android:id="@+id/ll_info_user"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical" >
-
-                <EditText
-                    android:id="@+id/ev_last_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/set_last_name"
-                    android:inputType="text"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/text_normal" />
-
-                <EditText
-                    android:id="@+id/et_last_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/set_first_name"
-                    android:inputType="textPersonName"
-                    android:textSize="@dimen/text_normal" >
-                </EditText>
-
-                <EditText
-                    android:id="@+id/et_nick_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/set_nick_name"
-                    android:inputType="text"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/text_normal" />
-
-                <EditText
-                    android:id="@+id/et_birthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/set_data_birthday"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/text_normal" />
-
-                <Spinner
-                    android:id="@+id/sp_gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_smoker" />
-
-                <Spinner
-                    android:id="@+id/sp_orientation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_orientation" />
-
-                <FrameLayout
-                    android:id="@+id/fl_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                </FrameLayout>
-
-                <Spinner
-                    android:id="@+id/sp_body"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_body_type" />
-
-                <Spinner
-                    android:id="@+id/sp_appropriate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_appearance" />
-
-                <Spinner
-                    android:id="@+id/sp_smoke"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_smoker" />
-
-                <Spinner
-                    android:id="@+id/sp_drink"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_drink_habits" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_info_search"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical" >
-
-                <EditText
-                    android:id="@+id/et_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/set_email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/text_normal" />
-
-                <EditText
-                    android:id="@+id/et_phone_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/set_phone_num"
-                    android:inputType="phone"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/text_normal" />
-
-                <Spinner
-                    android:id="@+id/sp_education"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_education" />
-
-                <Spinner
-                    android:id="@+id/sp_languages"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_languages" />
-
-                <Spinner
-                    android:id="@+id/sp_fin_pos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_fin_pos" />
-
-                <Spinner
-                    android:id="@+id/sp_rsidens"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_residence" />
-
-                <Spinner
-                    android:id="@+id/sp_looking_for"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_looking_for" />
-
-                <Spinner
-                    android:id="@+id/sp_relationship"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_relationship" />
-
-                <Spinner
-                    android:id="@+id/sp_localization"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/set_localization" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-                 <Button
-                     android:id="@+id/bt_save"
-                     android:layout_width="@dimen/btn_extra_large_size"
-                     android:layout_height="wrap_content"
-                     android:layout_gravity="center"
-                     android:layout_marginTop="@dimen/edge_above"
-                     android:background="@drawable/orange_roundbutton"
-                     android:text="@string/save_setting"
-                     android:textColor="@color/color_white"
-                     android:textSize="@dimen/text_normal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bt_orange"
+        android:text="@string/save_setting" />
 
 </LinearLayout>

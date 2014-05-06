@@ -53,7 +53,7 @@ import com.softwest.friendstogether.web.responses.list.POI;
 
 @SuppressLint( "NewApi" )
 @TargetApi( Build.VERSION_CODES.HONEYCOMB )
-public class MapActivity
+public class MajorActivity
   extends BaseActivity
   implements IResponse, OnClickListener, OnItemClickListener, IMarkerClick
 {
@@ -253,9 +253,9 @@ public class MapActivity
         mDrawerLayout.closeDrawer( mDrawerList );
         break;
       case MAP_VIEW:
-        if(!( this instanceof MapActivity ))
+        if(!( this instanceof MajorActivity ))
         {
-        Intent intent = new Intent( this, MapActivity.class );
+        Intent intent = new Intent( this, MajorActivity.class );
         startActivity( intent );
         }
         break;

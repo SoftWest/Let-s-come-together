@@ -123,6 +123,8 @@ public class HttpRequest
         httppost.setEntity( new UrlEncodedFormEntity( mValues ) );
         
         Log.d( "uri", "uri " + httppost.getURI() );
+        
+        timeOut(2000);
         // This is the line that send the request
       
         final HttpResponse response = httpclient.execute( httppost );
@@ -149,9 +151,6 @@ public class HttpRequest
       }
       catch( Throwable ignore )
       {
-        if( null != mHandlerResponse )
-          mHandlerResponse.process( ignore.toString(), jsonObject );
-        
         Log.w( LetIsGoTogetherAPP.TAG, "exception " + ignore );
       }
       finally
@@ -169,7 +168,24 @@ public class HttpRequest
       
     }
   }
-  
+  private void timeOut(final long sleep)
+  {
+    new Runnable()
+    {
+      public void run()
+      {
+      try
+      {
+        Thread.sleep( sleep );
+      }
+      catch( InterruptedException e )
+      {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      }
+    };
+  }
   public static List<String> split( final String text, final int sliceSize )
   {
     final List<String> textList = new ArrayList<String>();

@@ -48,7 +48,7 @@
         </activity>
         <activity android:name="com.softwest.friendstogether.activity.LoginFacebookActivity" >
         </activity>
-        <activity android:name="com.softwest.friendstogether.activity.MapActivity" >
+        <activity android:name="com.softwest.friendstogether.activity.MajorActivity" >
         </activity>
 
         <meta-data

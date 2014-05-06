@@ -22,7 +22,7 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.softwest.friendstogether.LetIsGoTogetherAPP;
-import com.softwest.friendstogether.activity.MapActivity.IFacebookLogOut;
+import com.softwest.friendstogether.activity.MajorActivity.IFacebookLogOut;
 import com.softwest.friendstogether.web.responses.CurrentUser;
 import com.softwest.friendstogether.web.responses.Primary;
 
@@ -118,9 +118,9 @@ public class LoginFacebookActivity
       LetIsGoTogetherAPP app = ( LetIsGoTogetherAPP )mActivity.getApplicationContext();
       app.setCurrentUser( currentUser );
       
-      Intent intent = new Intent( mActivity, MapActivity.class);
+      Intent intent = new Intent( mActivity, MajorActivity.class);
       mActivity.startActivity( intent );
-      MapActivity.setFacebookLogOut( this );
+      MajorActivity.setFacebookLogOut( this );
     }
   }
 
