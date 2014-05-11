@@ -3,7 +3,7 @@ package com.softwest.friendstogether.web.responses.wrappers.filters;
 public class Values
 {
   public String MALE;
-  public String FEMELE;
+  public String FEMALE;
   
   public String EQUAL;
   public String SPONSOR;

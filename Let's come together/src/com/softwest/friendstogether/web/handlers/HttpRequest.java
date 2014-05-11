@@ -130,8 +130,7 @@ public class HttpRequest
         final HttpResponse response = httpclient.execute( httppost );
        
         is = new InputStreamReader( response.getEntity().getContent(), "UTF-8" );
-        
-      
+       
         if(jsonObject == JsonObjectType.CHECK_IN)
         {
         String output = WebApi.readUTF8( is );

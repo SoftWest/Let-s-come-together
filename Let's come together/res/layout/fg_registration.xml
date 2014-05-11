@@ -53,7 +53,7 @@
                     android:background="@drawable/et_input"
                     android:drawableLeft="@drawable/ic_email_icon"
                     android:drawablePadding="@dimen/edge_above"
-                    android:inputType="textEmailAddress|phone"
+                    android:inputType="textEmailAddress"
                     android:padding="@dimen/edge_normal"
                     android:text="@string/email_adress_input"
                     android:textColor="@color/color_white"
@@ -62,7 +62,6 @@
                  <requestFocus />   
                 </EditText>
                    
-
                 <EditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
@@ -73,7 +72,7 @@
                     android:drawableLeft="@drawable/ic_lock_icon"
                     android:drawablePadding="@dimen/edge_above"
                     android:hint="@string/choose_password"
-                    android:inputType="numberPassword"
+                    android:inputType="textPassword"
                     android:padding="@dimen/edge_normal"
                     android:textColor="@color/color_white"
                     android:textColorHint="@color/color_white"
@@ -157,7 +156,7 @@
                     android:alpha="0.5"
                     android:background="@drawable/et_input"
                     android:gravity="center"
-                    android:inputType="textEmailAddress|phone"
+                    android:inputType="text"
                     android:padding="@dimen/edge_medium"
                     android:text="@string/nick_name"
                     android:textColor="@color/color_white"
@@ -176,7 +175,7 @@
                     android:background="@drawable/et_input"
                     android:gravity="center"
                     android:hint="@string/first_name"
-                    android:inputType="textPassword|phone"
+                    android:inputType="text"
                     android:padding="@dimen/edge_medium"
                     android:textColor="@color/color_white"
                     android:textColorHint="@color/color_white"
@@ -194,7 +193,7 @@
                     android:drawableLeft="@color/color_background"
                     android:gravity="center"
                     android:hint="@string/last_name"
-                    android:inputType="textPassword|phone"
+                    android:inputType="text"
                     android:padding="@dimen/edge_medium"
                     android:textColor="@color/color_white"
                     android:textColorHint="@color/color_white"

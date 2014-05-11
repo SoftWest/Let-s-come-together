@@ -53,10 +53,6 @@ public class SettingFragment
       }
     } );
     
-    // add RangeSeekBar to pre-defined layout
-    // ViewGroup layout = ( ViewGroup )v.findViewById( R.id.fl_seekbar );
-    // layout.addView( seekBar );
-      
      mListFilter = ( ListView )v.findViewById( R.id.lv_filter );
     
    
